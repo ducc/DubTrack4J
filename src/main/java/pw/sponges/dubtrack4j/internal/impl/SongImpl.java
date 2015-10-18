@@ -1,10 +1,11 @@
 package pw.sponges.dubtrack4j.internal.impl;
 
+import org.jsoup.Connection;
 import pw.sponges.dubtrack4j.Dubtrack;
-import pw.sponges.dubtrack4j.api.Room;
-import pw.sponges.dubtrack4j.api.Song;
-import pw.sponges.dubtrack4j.api.SongInfo;
-import pw.sponges.dubtrack4j.api.User;
+import pw.sponges.dubtrack4j.api.*;
+import pw.sponges.dubtrack4j.internal.request.SongDubRequest;
+
+import java.io.IOException;
 
 public class SongImpl implements Song {
 
@@ -67,12 +68,20 @@ public class SongImpl implements Song {
 
     @Override
     public void updub() {
-        dubtrack.updub(this);
+        try {
+            Connection.Response r = new SongDubRequest(room.getId(), DubType.UPDUB, dubtrack.getAccount()).request();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void downdub() {
-        dubtrack.downdub(this);
+        try {
+            Connection.Response r = new SongDubRequest(room.getId(), DubType.DOWNDUB, dubtrack.getAccount()).request();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

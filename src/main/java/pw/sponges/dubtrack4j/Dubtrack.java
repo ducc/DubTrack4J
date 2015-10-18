@@ -2,15 +2,12 @@ package pw.sponges.dubtrack4j;
 
 import com.pubnub.api.PubnubException;
 import org.json.JSONObject;
-import pw.sponges.dubtrack4j.api.DubType;
 import pw.sponges.dubtrack4j.api.Room;
-import pw.sponges.dubtrack4j.internal.impl.RoomImpl;
-import pw.sponges.dubtrack4j.api.Song;
 import pw.sponges.dubtrack4j.event.framework.EventManager;
+import pw.sponges.dubtrack4j.internal.impl.RoomImpl;
 import pw.sponges.dubtrack4j.internal.request.JoinRoomRequest;
 import pw.sponges.dubtrack4j.internal.request.RoomInfoRequest;
 import pw.sponges.dubtrack4j.internal.request.SendMessageRequest;
-import pw.sponges.dubtrack4j.internal.request.SongDubRequest;
 import pw.sponges.dubtrack4j.internal.subscription.Subscribe;
 import pw.sponges.dubtrack4j.util.Logger;
 
@@ -111,22 +108,6 @@ public class Dubtrack {
         }
 
         return room;
-    }
-
-    public void updub(Song song) {
-        dub(song.getRoom().getId(), DubType.UPDUB);
-    }
-
-    public void downdub(Song song) {
-        dub(song.getRoom().getId(), DubType.DOWNDUB);
-    }
-
-    public void dub(String id, DubType type) {
-        try {
-            new SongDubRequest(id, type, account).request();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }
