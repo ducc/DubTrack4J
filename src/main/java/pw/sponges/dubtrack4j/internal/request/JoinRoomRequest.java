@@ -10,12 +10,11 @@ import pw.sponges.dubtrack4j.api.*;
 import pw.sponges.dubtrack4j.internal.impl.RoomImpl;
 import pw.sponges.dubtrack4j.internal.impl.SongImpl;
 import pw.sponges.dubtrack4j.util.Logger;
+import pw.sponges.dubtrack4j.util.URL;
 
 import java.io.IOException;
 
 public class JoinRoomRequest implements Request {
-
-    private static final String URL = "https://api.dubtrack.fm/room/";
 
     private Dubtrack dubtrack;
     private String name;
@@ -28,7 +27,7 @@ public class JoinRoomRequest implements Request {
     }
 
     public Room request() throws IOException {
-        Connection.Response r = Jsoup.connect(URL + name)
+        Connection.Response r = Jsoup.connect(URL.JOIN_ROOM + name)
                 .method(Connection.Method.GET)
                 .ignoreContentType(true)
                 .execute();
@@ -41,7 +40,7 @@ public class JoinRoomRequest implements Request {
         JSONObject data = json.getJSONObject("data");
         String id = data.getString("_id");
 
-        String url = URL + id + "/users";
+        String url = URL.JOIN_ROOM + id + "/users";
 
         Jsoup.connect(url)
                 .ignoreContentType(true)

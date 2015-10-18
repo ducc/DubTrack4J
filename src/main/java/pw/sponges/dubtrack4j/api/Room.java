@@ -26,6 +26,4 @@ public interface Room {
 
     User loadUser(Dubtrack dubtrack, String id);
 
-
-
 }

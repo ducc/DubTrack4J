@@ -4,12 +4,11 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import pw.sponges.dubtrack4j.DubAccount;
 import pw.sponges.dubtrack4j.api.DubType;
+import pw.sponges.dubtrack4j.util.URL;
 
 import java.io.IOException;
 
 public class SongDubRequest implements Request {
-
-    private static final String URL = "https://api.dubtrack.fm/room/%s/playlist/active/dubs";
 
     private String room;
     private DubType type;
@@ -24,7 +23,7 @@ public class SongDubRequest implements Request {
     }
 
     public Connection.Response request() throws IOException {
-        String url = String.format(URL, room);
+        String url = String.format(URL.SONG_DUB.toString(), room);
 
         String message = type.name().toLowerCase();
 

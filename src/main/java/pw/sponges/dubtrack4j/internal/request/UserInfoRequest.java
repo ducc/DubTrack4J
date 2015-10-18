@@ -5,12 +5,11 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import pw.sponges.dubtrack4j.DubAccount;
 import pw.sponges.dubtrack4j.Dubtrack;
+import pw.sponges.dubtrack4j.util.URL;
 
 import java.io.IOException;
 
 public class UserInfoRequest implements Request {
-
-    private static final String URL = "https://api.dubtrack.fm/user/";
 
     private Dubtrack dubtrack;
     private String name;
@@ -23,7 +22,7 @@ public class UserInfoRequest implements Request {
     }
 
     public JSONObject request() throws IOException {
-        Connection.Response r = Jsoup.connect(URL + name)
+        Connection.Response r = Jsoup.connect(URL.USER_INFO + name)
                 .method(Connection.Method.GET)
                 .ignoreContentType(true)
                 .cookie("connect.sid", account.getToken())

@@ -3,12 +3,11 @@ package pw.sponges.dubtrack4j.internal.request;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import pw.sponges.dubtrack4j.DubAccount;
+import pw.sponges.dubtrack4j.util.URL;
 
 import java.io.IOException;
 
 public class SendMessageRequest implements Request {
-
-    private static final String URL = "https://api.dubtrack.fm/chat/";
 
     private String room, message;
     private DubAccount account;
@@ -22,7 +21,7 @@ public class SendMessageRequest implements Request {
     }
 
     public Connection.Response request() throws IOException {
-        String url = URL + room;
+        String url = URL.SEND_MESSAGE + room;
 
         Connection.Response response = Jsoup.connect(url)
                 .ignoreContentType(true)
