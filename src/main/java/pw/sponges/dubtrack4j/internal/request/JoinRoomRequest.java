@@ -1,0 +1,103 @@
+package pw.sponges.dubtrack4j.internal.request;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import pw.sponges.dubtrack4j.DubAccount;
+import pw.sponges.dubtrack4j.Dubtrack;
+import pw.sponges.dubtrack4j.api.*;
+import pw.sponges.dubtrack4j.util.Logger;
+
+import java.io.IOException;
+
+public class JoinRoomRequest implements Request {
+
+    private static final String URL = "https://api.dubtrack.fm/room/";
+
+    private Dubtrack dubtrack;
+    private String name;
+    private DubAccount account;
+
+    public JoinRoomRequest(Dubtrack dubtrack, String name, DubAccount account) throws IOException {
+        this.dubtrack = dubtrack;
+        this.name = name;
+        this.account = account;
+    }
+
+    public Room request() throws IOException {
+        Connection.Response r = Jsoup.connect(URL + name)
+                .method(Connection.Method.GET)
+                .ignoreContentType(true)
+                .execute();
+
+        String str = r.body();
+
+        Logger.debug("JOIN " + r.body());
+
+        JSONObject json = new JSONObject(str);
+        JSONObject data = json.getJSONObject("data");
+        String id = data.getString("_id");
+
+        String url = URL + id + "/users";
+
+        Jsoup.connect(url)
+                .ignoreContentType(true)
+                .userAgent("Mozilla/5.0 DubTrack4J")
+                .method(Connection.Method.POST)
+                .cookie("connect.sid", account.getToken())
+                .execute();
+
+        Room room = dubtrack.getRoom(id);
+        if (room == null) {
+            dubtrack.getRooms().put(id, new Room(dubtrack, data.getString("roomUrl"), id));
+            room = dubtrack.getRoom(id);
+        }
+
+        JSONObject currentSong;
+        String songId = null;
+        String songName;
+        long songLength;
+        String userId;
+        User user = null;
+        SongInfo songInfo = null;
+
+        try {
+            currentSong = json.getJSONObject("data").getJSONObject("currentSong");
+            songId = currentSong.getString("songid");
+            songName = currentSong.getString("name");
+
+            userId = json.getJSONObject("data").getString("userid");
+            user = dubtrack.getUser(dubtrack, room, userId);
+
+            JSONObject songInfoRequest = new SongInfoRequest(dubtrack, songId, dubtrack.getAccount()).request();
+            Logger.debug("SONGINFO " + songInfoRequest.toString());
+
+            songLength = songInfoRequest.getJSONObject("data").getLong("songLength");
+            songInfo = new SongInfo(songName, songLength);
+        } catch (JSONException e) {
+            if (e.getMessage().equalsIgnoreCase("JSONObject[\"currentSong\"] is not a JSONObject.")) {
+                Logger.debug("currentSong is null");
+            } else e.printStackTrace();
+        }
+
+        Song current = new Song(songId, user, room, songInfo);
+        room.setCurrent(current);
+
+        // updating the updub stats - delay 1s so the api loads
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                new SongDubRequest(id, DubType.UPDUB, dubtrack.getAccount()).request();
+            } catch (IOException e) {}
+        }).start();
+
+        return room;
+    }
+
+}
