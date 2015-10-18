@@ -4,10 +4,13 @@ import com.pubnub.api.PubnubException;
 import org.json.JSONObject;
 import pw.sponges.dubtrack4j.api.DubType;
 import pw.sponges.dubtrack4j.api.Room;
+import pw.sponges.dubtrack4j.internal.impl.RoomImpl;
 import pw.sponges.dubtrack4j.api.Song;
-import pw.sponges.dubtrack4j.api.User;
-import pw.sponges.dubtrack4j.framework.event.EventManager;
-import pw.sponges.dubtrack4j.internal.request.*;
+import pw.sponges.dubtrack4j.event.framework.EventManager;
+import pw.sponges.dubtrack4j.internal.request.JoinRoomRequest;
+import pw.sponges.dubtrack4j.internal.request.RoomInfoRequest;
+import pw.sponges.dubtrack4j.internal.request.SendMessageRequest;
+import pw.sponges.dubtrack4j.internal.request.SongDubRequest;
 import pw.sponges.dubtrack4j.internal.subscription.Subscribe;
 import pw.sponges.dubtrack4j.util.Logger;
 
@@ -91,54 +94,23 @@ public class Dubtrack {
         return account;
     }
 
-    public Room getRoom(Dubtrack dubtrack, String id) {
-        Room room = dubtrack.getRoom(id);
+    public Room loadRoom(String id) {
+        Room room = getRoom(id);
 
         if (room == null) {
             String name = null;
             try {
-                JSONObject roomInfo = new RoomInfoRequest(dubtrack, id, dubtrack.getAccount()).request();
+                JSONObject roomInfo = new RoomInfoRequest(this, id, account).request();
                 name = roomInfo.getJSONObject("data").getString("roomUrl");
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            dubtrack.getRooms().put(id, new Room(dubtrack, name, id));
-            room = dubtrack.getRoom(id);
+            getRooms().put(id, new RoomImpl(this, name, id));
+            room = getRoom(id);
         }
 
         return room;
-    }
-
-    public User getUser(Room room, String id, String username) {
-        User user = room.getUserById(id);
-
-        if (user == null) {
-            room.getUsers().put(id, new User(id, username));
-            user = room.getUserById(id);
-        }
-
-        return user;
-    }
-
-    public User getUser(Dubtrack dubtrack, Room room, String id) {
-        User user = room.getUserById(id);
-
-        if (user == null) {
-            JSONObject userInfo = null;
-            try {
-                userInfo = new UserInfoRequest(dubtrack, id, dubtrack.getAccount()).request();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String username = userInfo.getJSONObject("data").getString("username");
-
-            room.getUsers().put(id, new User(id, username));
-            user = room.getUserById(id);
-        }
-
-        return user;
     }
 
     public void updub(Song song) {

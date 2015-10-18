@@ -1,7 +1,7 @@
 package pw.sponges.dubtrack4j.event;
 
 import pw.sponges.dubtrack4j.api.Message;
-import pw.sponges.dubtrack4j.framework.event.Event;
+import pw.sponges.dubtrack4j.event.framework.Event;
 
 public class UserChatEvent implements Event {
 

@@ -1,21 +1,9 @@
 package pw.sponges.dubtrack4j.api;
 
-public class User {
+public interface User {
 
-    private final String id;
-    private final String name;
+    String getId();
 
-    public User(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
+    String getName();
 
 }

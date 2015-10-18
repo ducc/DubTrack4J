@@ -2,7 +2,7 @@ package pw.sponges.dubtrack4j.event;
 
 import pw.sponges.dubtrack4j.api.Room;
 import pw.sponges.dubtrack4j.api.Song;
-import pw.sponges.dubtrack4j.framework.event.Event;
+import pw.sponges.dubtrack4j.event.framework.Event;
 
 public class SongChangeEvent implements Event {
 

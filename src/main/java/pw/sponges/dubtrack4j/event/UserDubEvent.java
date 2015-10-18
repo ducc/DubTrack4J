@@ -4,7 +4,7 @@ import pw.sponges.dubtrack4j.api.DubType;
 import pw.sponges.dubtrack4j.api.Room;
 import pw.sponges.dubtrack4j.api.Song;
 import pw.sponges.dubtrack4j.api.User;
-import pw.sponges.dubtrack4j.framework.event.Event;
+import pw.sponges.dubtrack4j.event.framework.Event;
 
 public class UserDubEvent implements Event {
 

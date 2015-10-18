@@ -7,6 +7,8 @@ import org.jsoup.Jsoup;
 import pw.sponges.dubtrack4j.DubAccount;
 import pw.sponges.dubtrack4j.Dubtrack;
 import pw.sponges.dubtrack4j.api.*;
+import pw.sponges.dubtrack4j.internal.impl.RoomImpl;
+import pw.sponges.dubtrack4j.internal.impl.SongImpl;
 import pw.sponges.dubtrack4j.util.Logger;
 
 import java.io.IOException;
@@ -50,7 +52,7 @@ public class JoinRoomRequest implements Request {
 
         Room room = dubtrack.getRoom(id);
         if (room == null) {
-            dubtrack.getRooms().put(id, new Room(dubtrack, data.getString("roomUrl"), id));
+            dubtrack.getRooms().put(id, new RoomImpl(dubtrack, data.getString("roomUrl"), id));
             room = dubtrack.getRoom(id);
         }
 
@@ -68,7 +70,7 @@ public class JoinRoomRequest implements Request {
             songName = currentSong.getString("name");
 
             userId = json.getJSONObject("data").getString("userid");
-            user = dubtrack.getUser(dubtrack, room, userId);
+            user = room.loadUser(dubtrack, userId);
 
             JSONObject songInfoRequest = new SongInfoRequest(dubtrack, songId, dubtrack.getAccount()).request();
             Logger.debug("SONGINFO " + songInfoRequest.toString());
@@ -81,7 +83,7 @@ public class JoinRoomRequest implements Request {
             } else e.printStackTrace();
         }
 
-        Song current = new Song(songId, user, room, songInfo);
+        Song current = new SongImpl(dubtrack, songId, user, room, songInfo);
         room.setCurrent(current);
 
         // updating the updub stats - delay 1s so the api loads

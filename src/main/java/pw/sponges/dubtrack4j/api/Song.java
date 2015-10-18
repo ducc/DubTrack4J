@@ -1,66 +1,25 @@
 package pw.sponges.dubtrack4j.api;
 
-public class Song {
+public interface Song {
 
-    private final String id;
-    private final User user;
-    private final Room room;
-    private final SongInfo songInfo;
+    String getId();
 
-    private int updubs, downdubs = 0;
+    User getUser();
 
-    public Song(String id, User user, Room room, SongInfo songInfo) {
-        this.id = id;
-        this.user = user;
-        this.room = room;
-        this.songInfo = songInfo;
-    }
+    Room getRoom();
 
-    public String getId() {
-        return id;
-    }
+    SongInfo getSongInfo();
 
-    public User getUser() {
-        return user;
-    }
+    int getUpdubs();
 
-    public Room getRoom() {
-        return room;
-    }
+    void setUpdubs(int updubs);
 
-    public SongInfo getSongInfo() {
-        return songInfo;
-    }
+    int getDowndubs();
 
-    public int getUpdubs() {
-        return updubs;
-    }
+    void setDowndubs(int downdubs);
 
-    public void setUpdubs(int updubs) {
-        this.updubs = updubs;
-    }
+    void updub();
 
-    public void addUpdub() {
-        updubs++;
-    }
+    void downdub();
 
-    public void removeUpdub() {
-        updubs--;
-    }
-
-    public int getDowndubs() {
-        return downdubs;
-    }
-
-    public void setDowndubs(int downdubs) {
-        this.downdubs = downdubs;
-    }
-
-    public void addDowndub() {
-        downdubs++;
-    }
-
-    public void removeDowndub() {
-        downdubs--;
-    }
 }

@@ -2,62 +2,30 @@ package pw.sponges.dubtrack4j.api;
 
 import pw.sponges.dubtrack4j.Dubtrack;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class Room {
+public interface Room {
 
-    private Dubtrack dubtrack;
-    private final String url, id;
-    private Song current = null;
+    String getUrl();
 
-    //              id
-    private Map<String, User> users;
+    String getId();
 
-    public Room(Dubtrack dubtrack, String url, String id) {
-        this.dubtrack = dubtrack;
-        this.url = url;
-        this.id = id;
+    Map<String, User> getUsers();
 
-        this.users = new HashMap<>();
-    }
+    User getUserByUsername(String username);
 
-    public String getUrl() {
-        return url;
-    }
+    User getUserById(String id);
 
-    public String getId() {
-        return id;
-    }
+    Song getCurrent();
 
-    public Map<String, User> getUsers() {
-        return users;
-    }
+    void setCurrent(Song current);
 
-    public User getUserByUsername(String username) {
-        for (User user : users.values()) {
-            if (user.getName().equalsIgnoreCase(username)) {
-                return user;
-            }
-        }
+    void sendMessage(String message);
 
-        return null;
-    }
+    User loadUser(String id, String username);
 
-    public User getUserById(String id) {
-        return users.get(id);
-    }
+    User loadUser(Dubtrack dubtrack, String id);
 
-    public Song getCurrent() {
-        return current;
-    }
 
-    public void setCurrent(Song current) {
-        this.current = current;
-    }
-
-    public void sendMessage(String message) {
-        dubtrack.sendMessage(this, message);
-    }
 
 }

@@ -7,6 +7,7 @@ import pw.sponges.dubtrack4j.api.Song;
 import pw.sponges.dubtrack4j.api.SongInfo;
 import pw.sponges.dubtrack4j.api.User;
 import pw.sponges.dubtrack4j.event.SongChangeEvent;
+import pw.sponges.dubtrack4j.internal.impl.SongImpl;
 
 public class PlaylistUpdateCall extends SubCallback {
 
@@ -26,11 +27,11 @@ public class PlaylistUpdateCall extends SubCallback {
         String songName = json.getJSONObject("songInfo").getString("name");
         long songLength = json.getJSONObject("songInfo").getLong("songLength");
 
-        Room room = dubtrack.getRoom(dubtrack, roomId);
-        User user = dubtrack.getUser(dubtrack, room, userId);
+        Room room = dubtrack.loadRoom(roomId);
+        User user = room.loadUser(dubtrack, userId);
 
         SongInfo songInfo = new SongInfo(songName, songLength);
-        Song song = new Song(songId, user, room, songInfo);
+        Song song = new SongImpl(dubtrack, songId, user, room, songInfo);
 
         Song previous = room.getCurrent();
         room.setCurrent(song);

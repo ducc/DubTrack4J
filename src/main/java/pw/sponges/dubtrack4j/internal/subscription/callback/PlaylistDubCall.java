@@ -30,8 +30,8 @@ public class PlaylistDubCall extends SubCallback {
 
         DubType type = DubType.valueOf(json.getString("dubtype").toUpperCase());
 
-        Room room = dubtrack.getRoom(dubtrack, roomId);
-        User user = dubtrack.getUser(room, userId, username);
+        Room room = dubtrack.loadRoom(roomId);
+        User user = room.loadUser(userId, username);
         Song song = room.getCurrent();
         if (song == null) return;
 

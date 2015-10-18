@@ -1,4 +1,4 @@
-package pw.sponges.dubtrack4j.framework.event;
+package pw.sponges.dubtrack4j.event.framework;
 
 import pw.sponges.dubtrack4j.event.*;
 
