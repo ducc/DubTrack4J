@@ -28,6 +28,7 @@ public class EventManager {
             else if (event instanceof UserLeaveEvent) l.onLeave((UserLeaveEvent) event);
             else if (event instanceof SongChangeEvent) l.onSongChange((SongChangeEvent) event);
             else if (event instanceof UserDubEvent) l.onUserDub((UserDubEvent) event);
+            //else if (event instanceof UserKickEvent) l.onUserKick((UserKickEvent) event);
         }
     }
 

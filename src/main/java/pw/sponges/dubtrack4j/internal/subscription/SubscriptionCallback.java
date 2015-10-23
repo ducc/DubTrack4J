@@ -23,8 +23,8 @@ public class SubscriptionCallback extends Callback {
             put("user-leave", new UserLeaveCall(dubtrack));
             put("room_playlist-update", new PlaylistUpdateCall(dubtrack));
             put("room_playlist-dub", new PlaylistDubCall(dubtrack));
-            //user_update_56201555f4ce2d29001eb2e8
             put("user_update", new UserUpdateCall(dubtrack));
+            put("user-kick", new UserKickCall(dubtrack));
         }};
     }
 

@@ -5,7 +5,9 @@ import pw.sponges.dubtrack4j.Dubtrack;
 import pw.sponges.dubtrack4j.api.Room;
 import pw.sponges.dubtrack4j.api.Song;
 import pw.sponges.dubtrack4j.api.User;
+import pw.sponges.dubtrack4j.internal.request.KickUserRequest;
 import pw.sponges.dubtrack4j.internal.request.UserInfoRequest;
+import pw.sponges.dubtrack4j.util.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -106,6 +108,22 @@ public class RoomImpl implements Room {
         }
 
         return user;
+    }
+
+    @Override
+    public void kickUser(String username) {
+        User user = getUserByUsername(username);
+        kickUser(user);
+    }
+
+    @Override
+    public void kickUser(User user) {
+        try {
+            JSONObject jsonObject = new KickUserRequest(dubtrack, dubtrack.getAccount(), id, url, user.getId()).request();
+            Logger.debug(jsonObject.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

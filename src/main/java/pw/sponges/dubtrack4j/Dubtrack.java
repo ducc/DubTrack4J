@@ -12,6 +12,7 @@ import pw.sponges.dubtrack4j.internal.subscription.Subscribe;
 import pw.sponges.dubtrack4j.util.Logger;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,10 +88,17 @@ public class Dubtrack {
         return rooms;
     }
 
+    public Collection<Room> getAllRooms() {
+        return rooms.values();
+    }
+
     public DubAccount getAccount() {
         return account;
     }
 
+    /**
+     * Protected so people don't confuse with getRoom
+     */
     public Room loadRoom(String id) {
         Room room = getRoom(id);
 

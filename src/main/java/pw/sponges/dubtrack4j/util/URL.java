@@ -12,7 +12,8 @@ public enum URL {
     SEND_MESSAGE("https://api.dubtrack.fm/chat/"),
     SONG_DUB("https://api.dubtrack.fm/room/%s/playlist/active/dubs"),
     SONG_INFO("https://api.dubtrack.fm/song/"),
-    USER_INFO("https://api.dubtrack.fm/user/");
+    USER_INFO("https://api.dubtrack.fm/user/"),
+    KICK_USER("https://api.dubtrack.fm/chat/kick/%s/user/%s");
 
     private final String url;
 

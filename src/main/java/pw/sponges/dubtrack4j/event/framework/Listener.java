@@ -14,4 +14,6 @@ public interface Listener {
 
     default void onUserDub(UserDubEvent event) {}
 
+    //default void onUserKick(UserKickEvent event) {}
+
 }

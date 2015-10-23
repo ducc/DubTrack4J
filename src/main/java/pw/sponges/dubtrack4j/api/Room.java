@@ -26,4 +26,8 @@ public interface Room {
 
     User loadUser(Dubtrack dubtrack, String id);
 
+    void kickUser(String username);
+
+    void kickUser(User user);
+
 }
