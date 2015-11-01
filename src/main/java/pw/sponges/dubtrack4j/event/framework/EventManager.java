@@ -23,12 +23,19 @@ public class EventManager {
 
     public void handle(Event event) {
         for (Listener l : listeners) {
-            if (event instanceof UserChatEvent) l.onChat((UserChatEvent) event);
-            else if (event instanceof UserJoinEvent) l.onJoin((UserJoinEvent) event);
-            else if (event instanceof UserLeaveEvent) l.onLeave((UserLeaveEvent) event);
-            else if (event instanceof SongChangeEvent) l.onSongChange((SongChangeEvent) event);
-            else if (event instanceof UserDubEvent) l.onUserDub((UserDubEvent) event);
-            //else if (event instanceof UserKickEvent) l.onUserKick((UserKickEvent) event);
+            if (event instanceof UserChatEvent) {
+                l.onChat((UserChatEvent) event);
+            } else if (event instanceof UserJoinEvent) {
+                l.onJoin((UserJoinEvent) event);
+            } else if (event instanceof UserLeaveEvent) {
+                l.onLeave((UserLeaveEvent) event);
+            } else if (event instanceof SongChangeEvent) {
+                l.onSongChange((SongChangeEvent) event);
+            } else if (event instanceof UserDubEvent) {
+                l.onUserDub((UserDubEvent) event);
+            } //else if (event instanceof UserKickEvent)  {
+            //    l.onUserKick((UserKickEvent) event);
+            //}
         }
     }
 
