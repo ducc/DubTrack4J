@@ -6,7 +6,7 @@ import io.sponges.dubtrack4j.util.Logger;
 
 public class UserKickCall extends SubCallback {
 
-    private DubtrackAPI dubtrack;
+    private final DubtrackAPI dubtrack;
 
     public UserKickCall(DubtrackAPI dubtrack) {
         this.dubtrack = dubtrack;
@@ -15,6 +15,8 @@ public class UserKickCall extends SubCallback {
     @Override
     public void run(JSONObject json) {
         Logger.debug(json.toString());
+
+        // TODO implement user kick callback
 
         //String roomId =
 

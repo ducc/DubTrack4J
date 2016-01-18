@@ -1,14 +1,14 @@
 package io.sponges.dubtrack4j.internal.impl;
 
 import io.sponges.dubtrack4j.DubtrackAPI;
-import io.sponges.dubtrack4j.api.Room;
-import io.sponges.dubtrack4j.api.Song;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.internal.request.BanUserRequest;
 import io.sponges.dubtrack4j.internal.request.KickUserRequest;
 import io.sponges.dubtrack4j.internal.request.UserInfoRequest;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
-import io.sponges.dubtrack4j.api.User;
+import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
 import java.util.HashMap;

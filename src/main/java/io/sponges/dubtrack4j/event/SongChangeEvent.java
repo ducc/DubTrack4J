@@ -1,7 +1,7 @@
 package io.sponges.dubtrack4j.event;
 
-import io.sponges.dubtrack4j.api.Room;
-import io.sponges.dubtrack4j.api.Song;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.event.framework.Event;
 
 public class SongChangeEvent implements Event {

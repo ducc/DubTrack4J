@@ -22,7 +22,29 @@ public class EventManager {
     }
 
     public void handle(Event event) {
-        for (Listener l : listeners) {
+        if (event instanceof UserChatEvent) {
+            UserChatEvent e = (UserChatEvent) event;
+
+            for (Listener l : listeners) l.onChat(e);
+        } else if (event instanceof UserJoinEvent) {
+            UserJoinEvent e = (UserJoinEvent) event;
+
+            for (Listener l : listeners) l.onJoin(e);
+        } else if (event instanceof UserLeaveEvent) {
+            UserLeaveEvent e = (UserLeaveEvent) event;
+
+            for (Listener l : listeners) l.onLeave(e);
+        } else if (event instanceof SongChangeEvent) {
+            SongChangeEvent e = (SongChangeEvent) event;
+
+            for (Listener l : listeners) l.onSongChange(e);
+        } else if (event instanceof UserDubEvent) {
+            UserDubEvent e = (UserDubEvent) event;
+
+            for (Listener l : listeners) l.onUserDub(e);
+        }
+
+        /*for (Listener l : listeners) {
             if (event instanceof UserChatEvent) {
                 l.onChat((UserChatEvent) event);
             } else if (event instanceof UserJoinEvent) {
@@ -36,7 +58,7 @@ public class EventManager {
             } //else if (event instanceof UserKickEvent)  {
             //    l.onUserKick((UserKickEvent) event);
             //}
-        }
+        }*/
     }
 
 }

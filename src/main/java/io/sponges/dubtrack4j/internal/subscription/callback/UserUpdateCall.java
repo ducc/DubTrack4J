@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class UserUpdateCall extends SubCallback {
 
-    private DubtrackAPI dubtrack;
+    private final DubtrackAPI dubtrack;
 
     public UserUpdateCall(DubtrackAPI dubtrack) {
         this.dubtrack = dubtrack;
@@ -14,7 +14,8 @@ public class UserUpdateCall extends SubCallback {
 
     @Override
     public void run(JSONObject json) {
-        Logger.debug(true, "USER UPDATE" + json.toString());
+        // TODO implement user update
+        Logger.debug("USER UPDATE" + json.toString());
     }
 
 }

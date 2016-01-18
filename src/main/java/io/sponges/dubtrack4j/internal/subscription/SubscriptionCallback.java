@@ -2,20 +2,20 @@ package io.sponges.dubtrack4j.internal.subscription;
 
 import com.pubnub.api.Callback;
 import com.pubnub.api.PubnubError;
-import io.sponges.dubtrack4j.DubtrackAPI;
+import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.internal.subscription.callback.*;
-import org.json.JSONObject;
 import io.sponges.dubtrack4j.util.Logger;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SubscriptionCallback extends Callback {
 
-    private DubtrackAPI dubtrack;
-    private Map<String, SubCallback> callbacks;
+    private final DubtrackAPIImpl dubtrack;
+    private final Map<String, SubCallback> callbacks;
 
-    public SubscriptionCallback(DubtrackAPI dubtrack) {
+    SubscriptionCallback(DubtrackAPIImpl dubtrack) {
         this.dubtrack = dubtrack;
         this.callbacks = new HashMap<String, SubCallback>() {{
             put("chat-message", new ChatMessageCall(dubtrack));

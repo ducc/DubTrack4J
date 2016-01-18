@@ -1,6 +1,6 @@
 package io.sponges.dubtrack4j.internal.impl;
 
-import io.sponges.dubtrack4j.api.User;
+import io.sponges.dubtrack4j.framework.User;
 
 public class UserImpl implements User {
 

@@ -6,8 +6,10 @@ import java.io.IOException;
 
 public class DubAccount {
 
-    private DubtrackAPI dubtrack;
-    private String username, password, token;
+    private final DubtrackAPI dubtrack;
+    private final String username, password;
+
+    private String token = null;
 
     public DubAccount(DubtrackAPI dubtrack, String username, String password) {
         this.dubtrack = dubtrack;

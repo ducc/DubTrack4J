@@ -1,17 +1,17 @@
 package io.sponges.dubtrack4j.internal.subscription.callback;
 
-import io.sponges.dubtrack4j.DubtrackAPI;
-import io.sponges.dubtrack4j.api.Message;
-import io.sponges.dubtrack4j.api.Room;
+import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.event.UserChatEvent;
+import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.User;
 import org.json.JSONObject;
-import io.sponges.dubtrack4j.api.User;
 
 public class ChatMessageCall extends SubCallback {
 
-    private DubtrackAPI dubtrack;
+    private final DubtrackAPIImpl dubtrack;
 
-    public ChatMessageCall(DubtrackAPI dubtrack) {
+    public ChatMessageCall(DubtrackAPIImpl dubtrack) {
         this.dubtrack = dubtrack;
     }
 

@@ -1,7 +1,7 @@
 package io.sponges.dubtrack4j.internal.request;
 
 import io.sponges.dubtrack4j.DubAccount;
-import io.sponges.dubtrack4j.api.DubType;
+import io.sponges.dubtrack4j.framework.DubType;
 import io.sponges.dubtrack4j.util.URL;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

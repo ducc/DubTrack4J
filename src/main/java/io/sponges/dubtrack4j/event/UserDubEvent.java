@@ -1,10 +1,10 @@
 package io.sponges.dubtrack4j.event;
 
-import io.sponges.dubtrack4j.api.DubType;
-import io.sponges.dubtrack4j.api.Room;
-import io.sponges.dubtrack4j.api.Song;
+import io.sponges.dubtrack4j.framework.DubType;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.event.framework.Event;
-import io.sponges.dubtrack4j.api.User;
+import io.sponges.dubtrack4j.framework.User;
 
 public class UserDubEvent implements Event {
 

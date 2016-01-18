@@ -1,4 +1,4 @@
-package io.sponges.dubtrack4j.api;
+package io.sponges.dubtrack4j.framework;
 
 public interface User {
 

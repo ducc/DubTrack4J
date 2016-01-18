@@ -1,4 +1,4 @@
-package io.sponges.dubtrack4j.api;
+package io.sponges.dubtrack4j.framework;
 
 import io.sponges.dubtrack4j.DubtrackAPI;
 

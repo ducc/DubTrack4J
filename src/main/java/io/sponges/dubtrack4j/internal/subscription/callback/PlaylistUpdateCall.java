@@ -1,19 +1,19 @@
 package io.sponges.dubtrack4j.internal.subscription.callback;
 
-import io.sponges.dubtrack4j.DubtrackAPI;
-import org.json.JSONObject;
-import io.sponges.dubtrack4j.api.Room;
-import io.sponges.dubtrack4j.api.Song;
-import io.sponges.dubtrack4j.api.SongInfo;
-import io.sponges.dubtrack4j.api.User;
+import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.event.SongChangeEvent;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.Song;
+import io.sponges.dubtrack4j.framework.SongInfo;
+import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
+import org.json.JSONObject;
 
 public class PlaylistUpdateCall extends SubCallback {
 
-    private DubtrackAPI dubtrack;
+    private final DubtrackAPIImpl dubtrack;
 
-    public PlaylistUpdateCall(DubtrackAPI dubtrack) {
+    public PlaylistUpdateCall(DubtrackAPIImpl dubtrack) {
         this.dubtrack = dubtrack;
     }
 

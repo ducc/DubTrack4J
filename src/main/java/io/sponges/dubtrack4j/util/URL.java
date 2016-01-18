@@ -4,17 +4,17 @@ public enum URL {
 
     // Auth
     LOGIN("https://www.dubtrack.fm/login"),
-    AUTH("https://api.dubtrack.fm/auth/dubtrack"),
+    AUTH("https://framework.dubtrack.fm/auth/dubtrack"),
 
     // Requests
-    JOIN_ROOM("https://api.dubtrack.fm/room/"),
-    ROOM_INFO("https://api.dubtrack.fm/room/"),
-    SEND_MESSAGE("https://api.dubtrack.fm/chat/"),
-    SONG_DUB("https://api.dubtrack.fm/room/%s/playlist/active/dubs"),
-    SONG_INFO("https://api.dubtrack.fm/song/"),
-    USER_INFO("https://api.dubtrack.fm/user/"),
-    KICK_USER("https://api.dubtrack.fm/chat/kick/%s/user/%s"),
-    BAN_USER("https://api.dubtrack.fm/chat/ban/%s/user/%s");
+    JOIN_ROOM("https://framework.dubtrack.fm/room/"),
+    ROOM_INFO("https://framework.dubtrack.fm/room/"),
+    SEND_MESSAGE("https://framework.dubtrack.fm/chat/"),
+    SONG_DUB("https://framework.dubtrack.fm/room/%s/playlist/active/dubs"),
+    SONG_INFO("https://framework.dubtrack.fm/song/"),
+    USER_INFO("https://framework.dubtrack.fm/user/"),
+    KICK_USER("https://framework.dubtrack.fm/chat/kick/%s/user/%s"),
+    BAN_USER("https://framework.dubtrack.fm/chat/ban/%s/user/%s");
 
     private final String url;
 

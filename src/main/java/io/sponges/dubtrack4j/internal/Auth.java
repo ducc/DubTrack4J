@@ -9,8 +9,10 @@ import java.io.IOException;
 
 public class Auth {
 
-    private DubtrackAPI dubtrack;
-    private String username, password, sid;
+    private final DubtrackAPI dubtrack;
+    private final String username, password;
+
+    private String sid = null;
 
     public Auth(DubtrackAPI dubtrack, String username, String password) throws IOException {
         this.dubtrack = dubtrack;

@@ -2,7 +2,7 @@ package io.sponges.dubtrack4j.internal.request;
 
 import io.sponges.dubtrack4j.DubAccount;
 import io.sponges.dubtrack4j.DubtrackAPI;
-import io.sponges.dubtrack4j.api.*;
+import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.util.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,7 +85,7 @@ public class JoinRoomRequest implements Request {
         Song current = new SongImpl(dubtrack, songId, user, room, songInfo);
         room.setCurrent(current);
 
-        // updating the updub stats - delay 1s so the api loads
+        // updating the updub stats - delay 1s so the framework loads
         new Thread(() -> {
             try {
                 Thread.sleep(1000);

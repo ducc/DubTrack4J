@@ -1,7 +1,7 @@
 package io.sponges.dubtrack4j.internal.impl;
 
 import io.sponges.dubtrack4j.DubtrackAPI;
-import io.sponges.dubtrack4j.api.*;
+import io.sponges.dubtrack4j.framework.*;
 import org.jsoup.Connection;
 import io.sponges.dubtrack4j.internal.request.SongDubRequest;
 
