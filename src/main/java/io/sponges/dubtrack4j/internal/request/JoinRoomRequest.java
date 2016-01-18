@@ -49,10 +49,10 @@ public class JoinRoomRequest implements Request {
                 .cookie("connect.sid", account.getToken())
                 .execute();
 
-        Room room = dubtrack.getRoom(id);
+        RoomImpl room = (RoomImpl) dubtrack.getRoom(id);
         if (room == null) {
             dubtrack.getRooms().put(id, new RoomImpl(dubtrack, data.getString("roomUrl"), id));
-            room = dubtrack.getRoom(id);
+            room = (RoomImpl) dubtrack.getRoom(id);
         }
 
         JSONObject currentSong;

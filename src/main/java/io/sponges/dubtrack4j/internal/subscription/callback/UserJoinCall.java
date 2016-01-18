@@ -2,8 +2,8 @@ package io.sponges.dubtrack4j.internal.subscription.callback;
 
 import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.event.UserJoinEvent;
-import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import org.json.JSONObject;
 
 public class UserJoinCall extends SubCallback {
@@ -20,7 +20,7 @@ public class UserJoinCall extends SubCallback {
         String userId = json.getJSONObject("user").getString("_id");
         String roomId = json.getJSONObject("roomUser").getString("roomid");
 
-        Room room = dubtrack.loadRoom(roomId);
+        RoomImpl room = dubtrack.loadRoom(roomId);
         User user = room.loadUser(userId, username);
 
         dubtrack.getEventManager().handle(new UserJoinEvent(user, room));

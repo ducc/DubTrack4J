@@ -3,12 +3,12 @@ package io.sponges.dubtrack4j.internal.impl;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
+import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.request.BanUserRequest;
 import io.sponges.dubtrack4j.internal.request.KickUserRequest;
 import io.sponges.dubtrack4j.internal.request.UserInfoRequest;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
-import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,19 +16,17 @@ import java.util.Map;
 
 public class RoomImpl implements Room {
 
-    private DubtrackAPI dubtrack;
-    private final String url, id;
-    private Song current = null;
+    private final Map<String, User> users = new HashMap<>();
 
-    //              id
-    private Map<String, User> users;
+    private final DubtrackAPI dubtrack;
+    private final String url, id;
+
+    private Song current = null;
 
     public RoomImpl(DubtrackAPI dubtrack, String url, String id) {
         this.dubtrack = dubtrack;
         this.url = url;
         this.id = id;
-
-        this.users = new HashMap<>();
     }
 
     @Override
@@ -77,7 +75,6 @@ public class RoomImpl implements Room {
         dubtrack.sendMessage(this, message);
     }
 
-    @Override
     public User loadUser(String id, String username) {
         User user = getUserById(id);
 
@@ -88,8 +85,7 @@ public class RoomImpl implements Room {
 
         return user;
     }
-
-    @Override
+    
     public User loadUser(DubtrackAPI dubtrack, String id) {
         User user = getUserById(id);
 

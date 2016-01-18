@@ -15,7 +15,9 @@ public class CommandHandler {
     public CommandHandler() {
         Collections.addAll(commands,
                 new TestCommand(),
-                new StatsCommand());
+                new StatsCommand(),
+                new SkipCommand()
+        );
     }
 
     public void handle(Room room, User user, Message message) {

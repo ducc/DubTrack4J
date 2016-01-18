@@ -11,7 +11,7 @@ public class DubAccount {
 
     private String token = null;
 
-    public DubAccount(DubtrackAPI dubtrack, String username, String password) {
+    DubAccount(DubtrackAPI dubtrack, String username, String password) {
         this.dubtrack = dubtrack;
         this.username = username;
         this.password = password;

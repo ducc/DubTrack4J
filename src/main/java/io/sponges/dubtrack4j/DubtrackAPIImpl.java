@@ -96,7 +96,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
         return account;
     }
 
-    public Room loadRoom(String id) {
+    public RoomImpl loadRoom(String id) {
         Room room = getRoom(id);
 
         if (room == null) {
@@ -112,7 +112,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
             room = getRoom(id);
         }
 
-        return room;
+        return (RoomImpl) room;
     }
 
     public static Logger.LoggingMode getLoggingMode() {

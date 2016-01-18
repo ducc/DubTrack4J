@@ -2,10 +2,10 @@ package io.sponges.dubtrack4j.internal.subscription.callback;
 
 import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.event.SongChangeEvent;
-import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.SongInfo;
 import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
 import org.json.JSONObject;
 
@@ -27,7 +27,7 @@ public class PlaylistUpdateCall extends SubCallback {
         String songName = json.getJSONObject("songInfo").getString("name");
         long songLength = json.getJSONObject("songInfo").getLong("songLength");
 
-        Room room = dubtrack.loadRoom(roomId);
+        RoomImpl room = dubtrack.loadRoom(roomId);
         User user = room.loadUser(dubtrack, userId);
 
         SongInfo songInfo = new SongInfo(songName, songLength);

@@ -1,7 +1,5 @@
 package io.sponges.dubtrack4j.framework;
 
-import io.sponges.dubtrack4j.DubtrackAPI;
-
 import java.util.Map;
 
 public interface Room {
@@ -22,10 +20,6 @@ public interface Room {
     void setCurrent(Song current);
 
     void sendMessage(String message);
-
-    User loadUser(String id, String username);
-
-    User loadUser(DubtrackAPI dubtrack, String id);
 
     void kickUser(String username);
 

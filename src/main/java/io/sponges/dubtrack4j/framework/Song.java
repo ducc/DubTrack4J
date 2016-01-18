@@ -22,4 +22,6 @@ public interface Song {
 
     void downdub();
 
+    void skip();
+
 }

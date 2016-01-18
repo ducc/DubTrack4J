@@ -3,9 +3,9 @@ package io.sponges.dubtrack4j.internal.subscription.callback;
 import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.event.UserDubEvent;
 import io.sponges.dubtrack4j.framework.DubType;
-import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
 
@@ -30,7 +30,7 @@ public class PlaylistDubCall extends SubCallback {
 
         DubType type = DubType.valueOf(json.getString("dubtype").toUpperCase());
 
-        Room room = dubtrack.loadRoom(roomId);
+        RoomImpl room = dubtrack.loadRoom(roomId);
         User user = room.loadUser(userId, username);
         Song song = room.getCurrent();
         if (song == null) return;

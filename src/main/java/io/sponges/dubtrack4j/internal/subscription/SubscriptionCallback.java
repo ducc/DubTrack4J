@@ -57,9 +57,10 @@ public class SubscriptionCallback extends Callback {
 
     @Override
     public void errorCallback(String s, PubnubError pubnubError) {
-        Logger.debug("error " + s + " " + pubnubError.getErrorString());
+        Logger.warning("error " + s + " " + pubnubError.getErrorString());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void errorCallback(String s, Object o) {
         Logger.debug("error " + s + " " + o);
