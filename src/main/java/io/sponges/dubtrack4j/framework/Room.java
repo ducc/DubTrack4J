@@ -9,6 +9,8 @@ public interface Room {
 
     String getId();
 
+    String getPlaylistId();
+
     Map<String, User> getUsers();
 
     User getUserByUsername(String username);

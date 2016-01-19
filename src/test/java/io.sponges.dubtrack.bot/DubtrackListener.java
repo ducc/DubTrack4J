@@ -49,6 +49,8 @@ public class DubtrackListener implements Listener {
         Song last = event.getLastSong();
         Song next = event.getNewSong();
 
+        if (room == null || last == null || next == null) return;
+
         room.sendMessage(String.format("Now playing %s! %s got +%s/-%s for %s", next.getSongInfo().getName(),
                 last.getUser().getName(), last.getUpdubs(), last.getDowndubs(), last.getSongInfo().getName()));
     }

@@ -7,6 +7,7 @@ import io.sponges.dubtrack4j.framework.SongInfo;
 import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
+import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
 
 public class PlaylistUpdateCall extends SubCallback {
@@ -19,24 +20,31 @@ public class PlaylistUpdateCall extends SubCallback {
 
     @Override
     public void run(JSONObject json) {
-        String userId = json.getJSONObject("song").getString("userid");
-        String roomId = json.getJSONObject("song").getString("roomid");
-        long time = json.getJSONObject("song").getLong("created");
+        Logger.debug("PLAYLIST UPDATE = " + json.toString());
 
-        String songId = json.getJSONObject("song").getString("songid");
-        String songName = json.getJSONObject("songInfo").getString("name");
-        long songLength = json.getJSONObject("songInfo").getLong("songLength");
+        JSONObject song = json.getJSONObject("song");
+        JSONObject songInfo = json.getJSONObject("songInfo");
+
+        String playlistId = song.getString("_id");
+        String userId = song.getString("userid");
+        String roomId = song.getString("roomid");
+        long time = song.getLong("created");
+        String songId = song.getString("songid");
+
+        String songName = songInfo.getString("name");
+        long songLength = songInfo.getLong("songLength");
 
         RoomImpl room = dubtrack.loadRoom(roomId);
         User user = room.loadUser(dubtrack, userId);
 
-        SongInfo songInfo = new SongInfo(songName, songLength);
-        Song song = new SongImpl(dubtrack, songId, user, room, songInfo);
+        SongInfo sInfo = new SongInfo(songName, songLength);
+        Song s = new SongImpl(dubtrack, songId, user, room, sInfo);
 
         Song previous = room.getCurrent();
-        room.setCurrent(song);
+        room.setCurrent(s);
+        room.setPlaylistId(playlistId);
 
-        dubtrack.getEventManager().handle(new SongChangeEvent(previous, song, room));
+        dubtrack.getEventManager().handle(new SongChangeEvent(previous, s, room));
     }
 
 }

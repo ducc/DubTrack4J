@@ -15,7 +15,8 @@ public enum URL {
     USER_INFO("https://api.dubtrack.fm/user/"),
     KICK_USER("https://api.dubtrack.fm/chat/kick/%s/user/%s"),
     BAN_USER("https://api.dubtrack.fm/chat/ban/%s/user/%s"),
-    SKIP_SONG("https://api.dubtrack.fm/chat/skip/%s/%s");
+    SKIP_SONG("https://api.dubtrack.fm/chat/skip/%s/%s"),
+    ROOM_PLAYLIST("https://api.dubtrack.fm/room/%s/playlist/active");
 
     private final String url;
 

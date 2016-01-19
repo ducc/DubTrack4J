@@ -3,9 +3,9 @@ package io.sponges.dubtrack4j.internal.impl;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.internal.request.SkipSongRequest;
+import io.sponges.dubtrack4j.internal.request.SongDubRequest;
 import io.sponges.dubtrack4j.util.Logger;
 import org.jsoup.Connection;
-import io.sponges.dubtrack4j.internal.request.SongDubRequest;
 
 import java.io.IOException;
 
@@ -89,7 +89,7 @@ public class SongImpl implements Song {
     @Override
     public void skip() {
         try {
-            Connection.Response r = new SkipSongRequest(room.getId(), id, dubtrack.getAccount()).request();
+            Connection.Response r = new SkipSongRequest(room.getId(), room.getPlaylistId(), dubtrack.getAccount()).request();
             Logger.debug("Skip response: " + r.statusCode() + " - " + r.statusMessage() + "\n" + r.body() + "\n" + r.headers() + "\n" + r.cookies());
         } catch (IOException e) {
             e.printStackTrace();

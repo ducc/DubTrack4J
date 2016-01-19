@@ -6,6 +6,7 @@ import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.request.BanUserRequest;
 import io.sponges.dubtrack4j.internal.request.KickUserRequest;
+import io.sponges.dubtrack4j.internal.request.RoomPlaylistRequest;
 import io.sponges.dubtrack4j.internal.request.UserInfoRequest;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class RoomImpl implements Room {
 
@@ -21,7 +23,8 @@ public class RoomImpl implements Room {
     private final DubtrackAPI dubtrack;
     private final String url, id;
 
-    private Song current = null;
+    private final AtomicReference<String> atomicPlaylistId = new AtomicReference<>();
+    private final AtomicReference<Song> current = new AtomicReference<>();
 
     public RoomImpl(DubtrackAPI dubtrack, String url, String id) {
         this.dubtrack = dubtrack;
@@ -37,6 +40,31 @@ public class RoomImpl implements Room {
     @Override
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getPlaylistId() {
+        String playlistId = atomicPlaylistId.get();
+
+        if (playlistId == null) {
+            try {
+                playlistId = new RoomPlaylistRequest(id, dubtrack.getAccount()).request().getJSONObject("data").getJSONObject("song").getString("_id");
+                atomicPlaylistId.set(playlistId);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        return playlistId;
+    }
+
+    public AtomicReference<String> getAtomicPlaylistId() {
+        return atomicPlaylistId;
+    }
+
+    public void setPlaylistId(String playlistId) {
+        atomicPlaylistId.set(playlistId);
     }
 
     @Override
@@ -62,12 +90,12 @@ public class RoomImpl implements Room {
 
     @Override
     public Song getCurrent() {
-        return current;
+        return current.get();
     }
 
     @Override
     public void setCurrent(Song current) {
-        this.current = current;
+        this.current.set(current);
     }
 
     @Override

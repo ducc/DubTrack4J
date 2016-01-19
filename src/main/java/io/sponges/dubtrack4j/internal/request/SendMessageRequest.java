@@ -23,7 +23,7 @@ public class SendMessageRequest implements Request {
     public Connection.Response request() throws IOException {
         String url = URL.SEND_MESSAGE + room;
 
-        Connection.Response response = Jsoup.connect(url)
+        return Jsoup.connect(url)
                 .ignoreContentType(true)
                 .userAgent("Mozilla/5.0 DubTrack4J")
                 .cookie("connect.sid", account.getToken())
@@ -31,8 +31,6 @@ public class SendMessageRequest implements Request {
                 .data("message", message)
                 .method(Connection.Method.POST)
                 .execute();
-
-        return response;
     }
 
 }

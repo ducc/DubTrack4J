@@ -25,6 +25,7 @@ public class SubscriptionCallback extends Callback {
             put("room_playlist-dub", new PlaylistDubCall(dubtrack));
             put("user_update", new UserUpdateCall(dubtrack));
             put("user-kick", new UserKickCall(dubtrack));
+            put("chat-skip", new ChatSkipCall(dubtrack));
         }};
     }
 
@@ -35,10 +36,10 @@ public class SubscriptionCallback extends Callback {
 
     @Override
     public void successCallback(String s, Object o) {
-        Logger.debug(false, "success1 " + s + " " + o);
-
         JSONObject json = new JSONObject(o.toString());
         String type = json.getString("type");
+
+        Logger.debug(type.toUpperCase() + ": " + json.toString());
 
         if (type.startsWith("user_update_")) type = "user_update";
 
@@ -52,7 +53,6 @@ public class SubscriptionCallback extends Callback {
 
     @Override
     public void successCallback(String s, Object o, String s1) {
-        Logger.debug("success2 " + s + " " + o + " " + s1);
     }
 
     @Override
