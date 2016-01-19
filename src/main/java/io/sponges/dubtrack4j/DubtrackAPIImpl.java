@@ -9,24 +9,28 @@ import io.sponges.dubtrack4j.internal.request.RoomInfoRequest;
 import io.sponges.dubtrack4j.internal.request.SendMessageRequest;
 import io.sponges.dubtrack4j.internal.subscription.Subscribe;
 import io.sponges.dubtrack4j.util.Logger;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DubtrackAPIImpl implements DubtrackAPI {
 
     private static Logger.LoggingMode loggingMode = Logger.LoggingMode.NORMAL;
+
+    //              id  room
+    private final Map<String, Room> rooms = new HashMap<>();
 
     private final String username, password;
 
     private final DubAccount account;
     private final EventManager eventManager;
 
-    //              id  room
-    private Map<String, Room> rooms;
+    private final OkHttpClient httpClient;
 
     DubtrackAPIImpl(String username, String password) {
         this.username = username;
@@ -35,11 +39,30 @@ public class DubtrackAPIImpl implements DubtrackAPI {
         this.account = new DubAccount(this, username, password);
         this.eventManager = new EventManager();
 
-        this.rooms = new HashMap<>();
+        this.httpClient = new OkHttpClient.Builder()
+                .cookieJar(new CookieJar() {
+                    private final Map<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
+
+                    @Override
+                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                        cookieStore.put(url, cookies);
+                    }
+
+                    @Override
+                    public List<Cookie> loadForRequest(HttpUrl url) {
+                        List<Cookie> cookies = cookieStore.get(url);
+                        return cookies != null ? cookies : new ArrayList<>();
+                    }
+                })
+                .build();
+    }
+
+    public OkHttpClient getHttpClient() {
+        return httpClient;
     }
 
     @Override
-    public DubtrackAPIImpl login() throws IOException {
+    public DubtrackAPI login() throws IOException {
         account.login();
         return this;
     }
@@ -51,6 +74,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
             room = new JoinRoomRequest(this, name, account).request();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
 
         try {

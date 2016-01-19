@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-public class RoomInfoRequest implements Request {
+public class RoomInfoRequest implements DubRequest {
 
     private DubtrackAPI dubtrack;
     private String name;

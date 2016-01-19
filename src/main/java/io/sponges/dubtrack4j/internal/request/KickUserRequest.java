@@ -9,7 +9,7 @@ import io.sponges.dubtrack4j.util.URL;
 
 import java.io.IOException;
 
-public class KickUserRequest implements Request {
+public class KickUserRequest implements DubRequest {
 
     private DubtrackAPI dubtrack;
     private DubAccount account;

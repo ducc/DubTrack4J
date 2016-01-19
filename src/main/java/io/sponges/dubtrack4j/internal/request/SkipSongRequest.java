@@ -8,7 +8,7 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-public class SkipSongRequest implements Request {
+public class SkipSongRequest implements DubRequest {
 
     private String room, playlist;
     private DubAccount account;

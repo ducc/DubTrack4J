@@ -7,7 +7,7 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-public class SendMessageRequest implements Request {
+public class SendMessageRequest implements DubRequest {
 
     private String room, message;
     private DubAccount account;

@@ -18,7 +18,7 @@ public class SongImpl implements Song {
     private final Room room;
     private final SongInfo songInfo;
 
-    private int updubs, downdubs = 0;
+    private int updubs, downdubs = 0; // TODO make these atomic?
 
     public SongImpl(DubtrackAPI dubtrack, String id, User user, Room room, SongInfo songInfo) {
         this.dubtrack = dubtrack;

@@ -8,7 +8,7 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-public class SongDubRequest implements Request {
+public class SongDubRequest implements DubRequest {
 
     private String room;
     private DubType type;

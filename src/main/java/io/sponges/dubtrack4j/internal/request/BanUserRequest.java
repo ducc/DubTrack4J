@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-public class BanUserRequest implements Request {
+public class BanUserRequest implements DubRequest {
 
     private DubtrackAPI dubtrack;
     private DubAccount account;

@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
-public class SongInfoRequest implements Request {
+public class SongInfoRequest implements DubRequest {
 
     private DubtrackAPI dubtrack;
     private String id;

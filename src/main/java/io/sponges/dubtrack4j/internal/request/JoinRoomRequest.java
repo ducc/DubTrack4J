@@ -1,26 +1,26 @@
 package io.sponges.dubtrack4j.internal.request;
 
 import io.sponges.dubtrack4j.DubAccount;
-import io.sponges.dubtrack4j.DubtrackAPI;
+import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.framework.*;
+import io.sponges.dubtrack4j.internal.impl.RoomImpl;
+import io.sponges.dubtrack4j.internal.impl.SongImpl;
+import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import io.sponges.dubtrack4j.internal.impl.RoomImpl;
-import io.sponges.dubtrack4j.internal.impl.SongImpl;
-import io.sponges.dubtrack4j.util.Logger;
 
 import java.io.IOException;
 
-public class JoinRoomRequest implements Request {
+public class JoinRoomRequest implements DubRequest {
 
-    private DubtrackAPI dubtrack;
+    private DubtrackAPIImpl dubtrack;
     private String name;
     private DubAccount account;
 
-    public JoinRoomRequest(DubtrackAPI dubtrack, String name, DubAccount account) throws IOException {
+    public JoinRoomRequest(DubtrackAPIImpl dubtrack, String name, DubAccount account) throws IOException {
         this.dubtrack = dubtrack;
         this.name = name;
         this.account = account;
@@ -85,6 +85,7 @@ public class JoinRoomRequest implements Request {
         Song current = new SongImpl(dubtrack, songId, user, room, songInfo);
         room.setCurrent(current);
 
+        // TODO change from new thread to executor service
         // updating the updub stats - delay 1s so the framework loads
         new Thread(() -> {
             try {
@@ -95,7 +96,7 @@ public class JoinRoomRequest implements Request {
 
             try {
                 new SongDubRequest(id, DubType.UPDUB, dubtrack.getAccount()).request();
-            } catch (IOException e) {}
+            } catch (IOException ignored) {}
         }).start();
 
         return room;

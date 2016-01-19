@@ -1,6 +1,7 @@
 package io.sponges.dubtrack4j.internal.impl;
 
 import io.sponges.dubtrack4j.DubtrackAPI;
+import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
@@ -20,13 +21,13 @@ public class RoomImpl implements Room {
 
     private final Map<String, User> users = new HashMap<>();
 
-    private final DubtrackAPI dubtrack;
+    private final DubtrackAPIImpl dubtrack;
     private final String url, id;
 
     private final AtomicReference<String> atomicPlaylistId = new AtomicReference<>();
     private final AtomicReference<Song> current = new AtomicReference<>();
 
-    public RoomImpl(DubtrackAPI dubtrack, String url, String id) {
+    public RoomImpl(DubtrackAPIImpl dubtrack, String url, String id) {
         this.dubtrack = dubtrack;
         this.url = url;
         this.id = id;
@@ -48,7 +49,7 @@ public class RoomImpl implements Room {
 
         if (playlistId == null) {
             try {
-                playlistId = new RoomPlaylistRequest(id, dubtrack.getAccount()).request().getJSONObject("data").getJSONObject("song").getString("_id");
+                playlistId = new RoomPlaylistRequest(id, dubtrack).request().getJSONObject("data").getJSONObject("song").getString("_id");
                 atomicPlaylistId.set(playlistId);
             } catch (IOException e) {
                 e.printStackTrace();
