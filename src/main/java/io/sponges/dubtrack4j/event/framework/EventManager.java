@@ -7,20 +7,27 @@ import java.util.List;
 
 public class EventManager {
 
-    private List<Listener> listeners;
+    private final List<Listener> listeners = new ArrayList<>();
 
-    public EventManager() {
-        this.listeners = new ArrayList<>();
-    }
-
+    /**
+     * Registers a new listener to handle events
+     * @param listener the listener to register
+     */
     public void registerListener(Listener listener) {
         listeners.add(listener);
     }
-
+    /**
+     * Unregisters a listener from handling events
+     * @param listener the listener to unregister
+     */
     public void unregisterListener(Listener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Handles the event
+     * @param event the event to handle
+     */
     public void handle(Event event) {
         if (event instanceof UserChatEvent) {
             UserChatEvent e = (UserChatEvent) event;
@@ -44,21 +51,7 @@ public class EventManager {
             for (Listener l : listeners) l.onUserDub(e);
         }
 
-        /*for (Listener l : listeners) {
-            if (event instanceof UserChatEvent) {
-                l.onChat((UserChatEvent) event);
-            } else if (event instanceof UserJoinEvent) {
-                l.onJoin((UserJoinEvent) event);
-            } else if (event instanceof UserLeaveEvent) {
-                l.onLeave((UserLeaveEvent) event);
-            } else if (event instanceof SongChangeEvent) {
-                l.onSongChange((SongChangeEvent) event);
-            } else if (event instanceof UserDubEvent) {
-                l.onUserDub((UserDubEvent) event);
-            } //else if (event instanceof UserKickEvent)  {
-            //    l.onUserKick((UserKickEvent) event);
-            //}
-        }*/
+        // TODO add kick event & ban event (once fully implemented)
     }
 
 }

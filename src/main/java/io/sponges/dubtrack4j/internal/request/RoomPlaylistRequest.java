@@ -6,11 +6,8 @@ import io.sponges.dubtrack4j.util.ContentType;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONObject;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 
 import java.io.IOException;
 
@@ -26,7 +23,7 @@ public class RoomPlaylistRequest implements DubRequest {
         this.account = dubtrack.getAccount();
     }
 
-    public JSONObject request2() throws IOException {
+    /*public JSONObject request2() throws IOException {
         Logger.debug("Requesting playlist id...");
         String url = String.format(URL.ROOM_PLAYLIST.toString(), room);
         Logger.debug("URL = " + url);
@@ -41,16 +38,13 @@ public class RoomPlaylistRequest implements DubRequest {
         Logger.debug(str);
 
         return new JSONObject(str);
-    }
+    }*/
 
     public JSONObject request() throws IOException {
-        RequestBody body = RequestBody.create(null, new byte[0]);
-
         Request request = new Request.Builder()
-                .addHeader("Cookie", "connect.sid=" + account.getToken())
-                .addHeader("Content-Type", ContentType.JSON.getValue())
-                .addHeader("Content-Length", "0")
-                .post(body)
+                .url(String.format(URL.ROOM_PLAYLIST.toString(), room))
+                .addHeader("Content-Type", ContentType.JSON)
+                .get()
                 .build();
 
         Response response = dubtrack.getHttpClient().newCall(request).execute();

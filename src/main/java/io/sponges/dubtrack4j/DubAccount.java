@@ -6,21 +6,27 @@ import java.io.IOException;
 
 public class DubAccount {
 
-    private final DubtrackAPI dubtrack;
+    private final DubtrackAPIImpl dubtrack;
     private final String username, password;
 
+    @Deprecated
     private String token = null;
 
-    DubAccount(DubtrackAPI dubtrack, String username, String password) {
+    DubAccount(DubtrackAPIImpl dubtrack, String username, String password) {
         this.dubtrack = dubtrack;
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * Attempts to login to dubtrack
+     * @throws IOException
+     */
     public void login() throws IOException {
-        token = new Auth(dubtrack, username, password).getSid();
+        new Auth(dubtrack, username, password).login();
     }
 
+    @Deprecated
     public String getToken() {
         return token;
     }

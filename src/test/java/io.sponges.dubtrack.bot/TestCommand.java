@@ -12,7 +12,7 @@ public class TestCommand extends Command {
 
     @Override
     public void onCommand(Room room, User user, Message message, String[] args) {
-        room.sendMessage("hi " + user.getName() + " :)");
+        room.sendMessage("hi " + user.getUsername() + " :)");
     }
 
 }

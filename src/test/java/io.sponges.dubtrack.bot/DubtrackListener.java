@@ -22,7 +22,7 @@ public class DubtrackListener implements Listener {
         Room room = message.getRoom();
         String content = message.getContent();
 
-        System.out.printf("[%s] %s: %s\n", room.getUrl(), user.getName(), content);
+        System.out.printf("[%s] %s: %s\n", room.getName(), user.getUsername(), content);
 
         commandHandler.handle(room, user, message);
     }
@@ -32,7 +32,7 @@ public class DubtrackListener implements Listener {
         User user = event.getUser();
         Room room = event.getRoom();
 
-        room.sendMessage(user.getName() + " joined!");
+        room.sendMessage(user.getUsername() + " joined!");
     }
 
     @Override
@@ -40,7 +40,7 @@ public class DubtrackListener implements Listener {
         User user = event.getUser();
         Room room = event.getRoom();
 
-        room.sendMessage(user.getName() + " left!");
+        room.sendMessage(user.getUsername() + " left!");
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DubtrackListener implements Listener {
 
         room.sendMessage(String.format("Now playing %s! %s got +%s/-%s for %s", next.getSongInfo().getName(),
                 last.getUser()
-                        .getName(),
+                        .getUsername(),
                 last.getUpdubs(),
                 last.getDowndubs(),
                 last.getSongInfo()
@@ -62,7 +62,7 @@ public class DubtrackListener implements Listener {
 
     @Override
     public void onUserDub(UserDubEvent event) {
-        event.getRoom().sendMessage(event.getUser().getName() + " " + event.getType().name().toLowerCase() + "ed!");
+        event.getRoom().sendMessage(event.getUser().getUsername() + " " + event.getType().name().toLowerCase() + "ed!");
     }
 
 }

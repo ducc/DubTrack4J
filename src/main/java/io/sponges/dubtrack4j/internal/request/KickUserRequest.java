@@ -11,10 +11,10 @@ import java.io.IOException;
 
 public class KickUserRequest implements DubRequest {
 
-    private DubtrackAPI dubtrack;
-    private DubAccount account;
+    private final DubtrackAPI dubtrack;
+    private final DubAccount account;
 
-    private String roomId, roomName, userId;
+    private final String roomId, roomName, userId;
 
     public KickUserRequest(DubtrackAPI dubtrack, DubAccount account, String roomId, String roomName, String userId) throws IOException {
         this.dubtrack = dubtrack;
@@ -30,7 +30,7 @@ public class KickUserRequest implements DubRequest {
                 .header("realTimeChannel", "dubtrackfm-" + roomName)
                 .method(Connection.Method.POST)
                 .ignoreContentType(true)
-                .cookie("connect.sid", account.getToken())
+                //.cookie("connect.sid", account.getToken())
                 .execute();
 
         String str = r.body();

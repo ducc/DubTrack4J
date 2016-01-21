@@ -31,7 +31,7 @@ public class SubscriptionCallback extends Callback {
 
     @Override
     public void disconnectCallback(String s, Object o) {
-        Logger.debug("disconnect " + s + " " + o);
+        Logger.debug("PubNub disconnect: " + s + " " + o);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SubscriptionCallback extends Callback {
         if (type.startsWith("user_update_")) type = "user_update";
 
         if (!callbacks.containsKey(type)) {
-            Logger.debug(true, "Invalid callback type " + type);
+            Logger.debug("Invalid callback type " + type);
             return;
         }
 
@@ -53,27 +53,28 @@ public class SubscriptionCallback extends Callback {
 
     @Override
     public void successCallback(String s, Object o, String s1) {
+        // TODO something to put in here
     }
 
     @Override
     public void errorCallback(String s, PubnubError pubnubError) {
-        Logger.warning("error " + s + " " + pubnubError.getErrorString());
+        Logger.warning("PubNub error: " + s + " " + pubnubError.getErrorString());
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void errorCallback(String s, Object o) {
-        Logger.debug("error " + s + " " + o);
+        Logger.debug("Error: " + s + " " + o);
     }
 
     @Override
     public void connectCallback(String s, Object o) {
-        Logger.debug("connect " + s + " " + o);
+        Logger.debug("PubNub connect: " + s + " " + o);
     }
 
     @Override
     public void reconnectCallback(String s, Object o) {
-        Logger.debug("reconnect " + s + " " + o);
+        Logger.debug("PubNub reconnect: " + s + " " + o);
     }
 
 }

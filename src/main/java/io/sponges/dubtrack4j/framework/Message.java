@@ -14,18 +14,34 @@ public class Message {
         this.content = content;
     }
 
+    /**
+     * The user who sent the message
+     * @return User instance
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * The room that the message was sent in
+     * @return Room instance
+     */
     public Room getRoom() {
         return room;
     }
 
+    /**
+     * The time that the message was sent at in milliseconds
+     * @return message sent time
+     */
     public long getTime() {
         return time;
     }
 
+    /**
+     * The content of the message
+     * @return message content
+     */
     public String getContent() {
         return content;
     }

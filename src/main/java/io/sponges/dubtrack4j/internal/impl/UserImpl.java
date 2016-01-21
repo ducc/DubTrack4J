@@ -5,11 +5,11 @@ import io.sponges.dubtrack4j.framework.User;
 public class UserImpl implements User {
 
     private final String id;
-    private final String name;
+    private final String username;
 
-    public UserImpl(String id, String name) {
+    public UserImpl(String id, String username) {
         this.id = id;
-        this.name = name;
+        this.username = username;
     }
 
     @Override
@@ -18,8 +18,8 @@ public class UserImpl implements User {
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
 }

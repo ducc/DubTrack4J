@@ -1,17 +1,15 @@
 package io.sponges.dubtrack4j.internal.impl;
 
-import io.sponges.dubtrack4j.DubtrackAPI;
+import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.internal.request.SkipSongRequest;
 import io.sponges.dubtrack4j.internal.request.SongDubRequest;
-import io.sponges.dubtrack4j.util.Logger;
-import org.jsoup.Connection;
 
 import java.io.IOException;
 
 public class SongImpl implements Song {
 
-    private final DubtrackAPI dubtrack;
+    private final DubtrackAPIImpl dubtrack;
 
     private final String id;
     private final User user;
@@ -20,7 +18,7 @@ public class SongImpl implements Song {
 
     private int updubs, downdubs = 0; // TODO make these atomic?
 
-    public SongImpl(DubtrackAPI dubtrack, String id, User user, Room room, SongInfo songInfo) {
+    public SongImpl(DubtrackAPIImpl dubtrack, String id, User user, Room room, SongInfo songInfo) {
         this.dubtrack = dubtrack;
         this.id = id;
         this.user = user;
@@ -54,16 +52,15 @@ public class SongImpl implements Song {
     }
 
     @Override
-    public void setUpdubs(int updubs) {
-        this.updubs = updubs;
-    }
-
-    @Override
     public int getDowndubs() {
         return downdubs;
     }
 
-    @Override
+    // setters not in interface to avoid confusion in the API
+    public void setUpdubs(int updubs) {
+        this.updubs = updubs;
+    }
+
     public void setDowndubs(int downdubs) {
         this.downdubs = downdubs;
     }
@@ -71,7 +68,7 @@ public class SongImpl implements Song {
     @Override
     public void updub() {
         try {
-            Connection.Response r = new SongDubRequest(room.getId(), DubType.UPDUB, dubtrack.getAccount()).request();
+            new SongDubRequest(room.getId(), DubType.UPDUB, dubtrack).request();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +77,7 @@ public class SongImpl implements Song {
     @Override
     public void downdub() {
         try {
-            Connection.Response r = new SongDubRequest(room.getId(), DubType.DOWNDUB, dubtrack.getAccount()).request();
+            new SongDubRequest(room.getId(), DubType.DOWNDUB, dubtrack).request();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,8 +86,7 @@ public class SongImpl implements Song {
     @Override
     public void skip() {
         try {
-            Connection.Response r = new SkipSongRequest(room.getId(), room.getPlaylistId(), dubtrack.getAccount()).request();
-            Logger.debug("Skip response: " + r.statusCode() + " - " + r.statusMessage() + "\n" + r.body() + "\n" + r.headers() + "\n" + r.cookies());
+            new SkipSongRequest(room.getId(), room.getPlaylistId(), dubtrack).request();
         } catch (IOException e) {
             e.printStackTrace();
         }

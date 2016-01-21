@@ -69,7 +69,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
 
     @Override
     public Room joinRoom(String name) {
-        Room room = null;
+        Room room;
         try {
             room = new JoinRoomRequest(this, name, account).request();
         } catch (IOException e) {
@@ -78,9 +78,11 @@ public class DubtrackAPIImpl implements DubtrackAPI {
         }
 
         try {
-            new Subscribe(this, room.getUrl());
+            new Subscribe(this, room.getName());
         } catch (PubnubException e) {
+            Logger.warning("Could not subscribe to pubnub when joining the room!");
             e.printStackTrace();
+            return null;
         }
 
         return room;
@@ -89,7 +91,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     @Override
     public void sendMessage(Room room, String message) {
         try {
-            new SendMessageRequest(room.getId(), message, account);
+            new SendMessageRequest(room.getId(), message, this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,11 +110,6 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     @Override
     public Map<String, Room> getRooms() {
         return rooms;
-    }
-
-    @Override
-    public Collection<Room> getAllRooms() {
-        return rooms.values();
     }
 
     @Override

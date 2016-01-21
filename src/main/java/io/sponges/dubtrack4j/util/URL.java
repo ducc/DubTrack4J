@@ -1,5 +1,11 @@
 package io.sponges.dubtrack4j.util;
 
+/**
+ * Enum containing constants for each request URL
+ *
+ * Why use an Enum?
+ * Easy to add in new URLs, IMO it looks cleaner than a class with string constants for something like this
+ */
 public enum URL {
 
     // Auth

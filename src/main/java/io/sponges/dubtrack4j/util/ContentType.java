@@ -1,19 +1,13 @@
 package io.sponges.dubtrack4j.util;
 
-public enum ContentType {
+/**
+ * Constants for request content types
+ * Not using an enum because that would be overkill for two string constants
+ */
+public final class ContentType {
 
-    JSON("application/json"),
-    WWW_FORM("application/x-www-form-urlencoded"),
-    OCTET_STREAM("application/octet-stream");
+    public static final String JSON = "application/json";
 
-    private final String value;
-
-    ContentType(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
+    public static final String WWW_FORM = "application/x-www-form-urlencoded";
 
 }

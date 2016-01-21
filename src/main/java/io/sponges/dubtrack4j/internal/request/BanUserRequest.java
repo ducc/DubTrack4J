@@ -11,11 +11,13 @@ import java.io.IOException;
 
 public class BanUserRequest implements DubRequest {
 
-    private DubtrackAPI dubtrack;
-    private DubAccount account;
+    private final DubtrackAPI dubtrack;
+    private final DubAccount account;
 
-    private String roomId, roomName, userId;
-    private int time;
+    private final String roomId, roomName, userId;
+    private final int time;
+
+    // TODO fix this & change to OkHttp
 
     public BanUserRequest(DubtrackAPI dubtrack, DubAccount account, String roomId, String roomName, String userId, int time) throws IOException {
         this.dubtrack = dubtrack;
