@@ -24,7 +24,6 @@ public class Bot {
 
         this.dubtrack = DubtrackBuilder.create(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
         this.dubtrack.getEventManager().registerListener(new DubtrackListener(commandHandler));
-        this.dubtrack.login();
         System.out.println("Logged in!");
 
         this.dubtrack.joinRoom("sponges");

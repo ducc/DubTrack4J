@@ -1,8 +1,6 @@
 package io.sponges.dubtrack4j.internal;
 
-import com.squareup.mimecraft.FormEncoding;
 import io.sponges.dubtrack4j.DubtrackAPIImpl;
-import io.sponges.dubtrack4j.util.ContentType;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.*;
@@ -25,7 +23,7 @@ public class Auth {
         this.password = password;
     }
 
-    private void login2() throws IOException {
+    public void login2() throws IOException {
         Connection.Response loginForm = Jsoup.connect(URL.LOGIN.toString())
                 .method(Connection.Method.GET)
                 .userAgent("Mozilla/5.0 DubTrack4J")
@@ -39,6 +37,8 @@ public class Auth {
                 .method(Connection.Method.POST)
                 .execute();
 
+        System.out.println("Login respose=" + response.body());
+
         sid = response.cookies().get("connect.sid");
     }
 
@@ -51,12 +51,10 @@ public class Auth {
         }
 
         {
-            FormEncoding data = new FormEncoding.Builder()
+            RequestBody body = new FormBody.Builder()
                     .add("username", username)
                     .add("password", password)
                     .build();
-
-            RequestBody body = RequestBody.create(MediaType.parse(ContentType.WWW_FORM), data.toString());
 
             Request request = new Request.Builder()
                     .url(URL.AUTH.toString())
@@ -65,7 +63,8 @@ public class Auth {
                     .build();
 
             Response response = client.newCall(request).execute();
-            Logger.debug("Login response = " + response.body().string());
+
+            Logger.debug("Login response = " + response.body().string() + "\nheaders = " + response.headers().toMultimap());
         }
 
         //sid = response.cookies().get("connect.sid");

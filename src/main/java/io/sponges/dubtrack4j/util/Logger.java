@@ -1,6 +1,10 @@
 package io.sponges.dubtrack4j.util;
 
 import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import okhttp3.Request;
+import okio.Buffer;
+
+import java.io.IOException;
 
 /**
  * Util class for logging
@@ -31,6 +35,22 @@ public class Logger {
 
     public static void warning(String msg) {
         System.out.println("WARNING> " + msg);
+    }
+
+    /**
+     * Helps with logging okhttp request bodies
+     * @param request
+     * @return
+     */
+    private static String bodyToString(final Request request){
+        try {
+            final Request copy = request.newBuilder().build();
+            final Buffer buffer = new Buffer();
+            copy.body().writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "did not work";
+        }
     }
 
 }

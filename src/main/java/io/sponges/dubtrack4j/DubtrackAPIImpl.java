@@ -45,12 +45,19 @@ public class DubtrackAPIImpl implements DubtrackAPI {
 
                     @Override
                     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                        Logger.debug("COOKIE SAVE for " + url.toString() + " with cookies " + cookies.toString());
                         cookieStore.put(url, cookies);
                     }
 
                     @Override
                     public List<Cookie> loadForRequest(HttpUrl url) {
+                        Logger.debug("COOKIE LOAD for " + url.toString() + "!");
                         List<Cookie> cookies = cookieStore.get(url);
+
+                        if (cookies != null) {
+                            Logger.debug(url.toString() + " cookies: " + cookies);
+                        }
+
                         return cookies != null ? cookies : new ArrayList<>();
                     }
                 })
