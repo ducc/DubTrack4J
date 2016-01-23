@@ -3,7 +3,7 @@ package io.sponges.dubtrack4j.internal;
 import com.google.common.collect.ImmutableMap;
 import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
-import io.sponges.dubtrack4j.event.framework.EventManager;
+import io.sponges.dubtrack4j.event.framework.EventBus;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.request.JoinRoomRequest;
@@ -28,14 +28,14 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     private final Map<String, Room> rooms = new HashMap<>();
 
     private final DubAccount account;
-    private final EventManager eventManager;
+    private final EventBus eventBus;
 
     private final OkHttpClient httpClient;
     private final Requester requester;
 
     public DubtrackAPIImpl(String username, String password) {
         this.account = new DubAccount(this, username, password);
-        this.eventManager = new EventManager();
+        this.eventBus = new EventBus();
 
         this.httpClient = new OkHttpClient.Builder().build();
         this.requester = new Requester(this);
@@ -64,8 +64,8 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     }
 
     @Override
-    public EventManager getEventManager() {
-        return eventManager;
+    public EventBus getEventBus() {
+        return eventBus;
     }
 
     @Override

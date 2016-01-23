@@ -1,10 +1,10 @@
 package io.sponges.dubtrack4j.event;
 
-import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.event.framework.Event;
+import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
 
-public class UserKickEvent implements Event {
+public class UserKickEvent extends Event {
 
     /*
     Not implemented as trying to find method to get the room id from user-kick real time callback.

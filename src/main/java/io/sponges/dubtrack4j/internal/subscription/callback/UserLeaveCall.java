@@ -27,6 +27,6 @@ public class UserLeaveCall extends SubCallback {
         RoomImpl room = dubtrack.loadRoom(roomId);
         User user = room.loadUser(userId, username);
 
-        dubtrack.getEventManager().handle(new UserLeaveEvent(user, room));
+        dubtrack.getEventBus().post(new UserLeaveEvent(user, room));
     }
 }

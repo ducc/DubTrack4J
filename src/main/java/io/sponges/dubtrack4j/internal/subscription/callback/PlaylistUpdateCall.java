@@ -43,7 +43,7 @@ public class PlaylistUpdateCall extends SubCallback {
         room.setCurrent(s);
         room.setPlaylistId(playlistId);
 
-        dubtrack.getEventManager().handle(new SongChangeEvent(previous, s, room));
+        dubtrack.getEventBus().post(new SongChangeEvent(previous, s, room));
     }
 
 }

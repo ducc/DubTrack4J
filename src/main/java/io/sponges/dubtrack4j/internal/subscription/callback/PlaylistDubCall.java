@@ -37,7 +37,7 @@ public class PlaylistDubCall extends SubCallback {
         song.setUpdubs(currentUps);
         song.setDowndubs(currentDowns);
 
-        dubtrack.getEventManager().handle(new UserDubEvent(song, user, room, type));
+        dubtrack.getEventBus().post(new UserDubEvent(song, user, room, type));
     }
 
 }

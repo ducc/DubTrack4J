@@ -29,7 +29,7 @@ public class ChatMessageCall extends SubCallback {
         User user = room.loadUser(userId, username);
 
         Message msg = new Message(user, room, time, message);
-        dubtrack.getEventManager().handle(new UserChatEvent(msg));
+        dubtrack.getEventBus().post(new UserChatEvent(msg));
     }
 
 }

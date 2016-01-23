@@ -2,6 +2,12 @@ import cmd.CommandHandler;
 import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
+import io.sponges.dubtrack4j.event.UserChatEvent;
+import io.sponges.dubtrack4j.event.UserJoinEvent;
+import io.sponges.dubtrack4j.event.framework.EventBus;
+import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
 
@@ -23,7 +29,27 @@ public class Bot {
         }
 
         this.dubtrack = DubtrackBuilder.create(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
-        this.dubtrack.getEventManager().registerListener(new DubtrackListener(commandHandler));
+
+        EventBus bus = this.dubtrack.getEventBus();
+
+        bus.register(UserChatEvent.class, event -> {
+            Message message = event.getMessage();
+            User user = message.getUser();
+            Room room = message.getRoom();
+            String content = message.getContent();
+
+            System.out.printf("[%s] %s: %s\n", room.getName(), user.getUsername(), content);
+
+            commandHandler.handle(room, user, message);
+        });
+
+        bus.register(UserJoinEvent.class, event -> {
+            try {
+                event.getRoom().sendMessage(event.getUser().getUsername() + " left!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         Logger.info("Logged in!");
 

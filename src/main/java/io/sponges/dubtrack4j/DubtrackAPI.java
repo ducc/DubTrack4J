@@ -1,7 +1,7 @@
 package io.sponges.dubtrack4j;
 
 import com.pubnub.api.PubnubException;
-import io.sponges.dubtrack4j.event.framework.EventManager;
+import io.sponges.dubtrack4j.event.framework.EventBus;
 import io.sponges.dubtrack4j.framework.Room;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public interface DubtrackAPI {
      * Gets the EventManager instance
      * @return EventManager instance
      */
-    EventManager getEventManager();
+    EventBus getEventBus();
 
     /**
      * Gets an instance of a room by id

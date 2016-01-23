@@ -1,10 +1,10 @@
 package io.sponges.dubtrack4j.event;
 
+import io.sponges.dubtrack4j.event.framework.Event;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
-import io.sponges.dubtrack4j.event.framework.Event;
 
-public class SongChangeEvent implements Event {
+public class SongChangeEvent extends Event {
 
     private final Song lastSong, newSong;
     private final Room room;
