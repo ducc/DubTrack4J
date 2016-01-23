@@ -1,8 +1,6 @@
 # DubTrack4J
 A Java API for Dubtrack.
 
-## THIS IS A PROTOTYPE
-
 ### Maven
 Will add soon
 
