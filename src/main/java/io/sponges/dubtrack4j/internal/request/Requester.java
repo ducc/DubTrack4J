@@ -39,25 +39,7 @@ public final class Requester {
     }
 
     public Response post(String url, Map<String, String> data) throws IOException {
-        FormBody.Builder builder = new FormBody.Builder();
-
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            builder.addEncoded(key, value);
-        }
-
-        RequestBody body = builder.build();
-
-        Request.Builder b = new Request.Builder()
-                .url(url)
-                .addHeader("Content-Type", body.contentType().type())
-                .addHeader("Content-Length", String.valueOf(body.contentLength()))
-                .post(body);
-
-        b = appendCookies(b);
-        return request(b.build());
+        return post(url, data, null);
     }
 
     public Response post(String url, Map<String, String> data, Map<String, String> headers) throws IOException {
@@ -78,11 +60,13 @@ public final class Requester {
                 .addHeader("Content-Length", String.valueOf(body.contentLength()))
                 .post(body);
 
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
 
-            b.addHeader(key, value);
+                b.addHeader(key, value);
+            }
         }
 
         b = appendCookies(b);
