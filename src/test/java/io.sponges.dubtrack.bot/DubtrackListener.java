@@ -62,7 +62,7 @@ public class DubtrackListener implements Listener {
 
     @Override
     public void onUserDub(UserDubEvent event) {
-        event.getRoom().sendMessage(event.getUser().getUsername() + " " + event.getType().name().toLowerCase() + "ed!");
+        //event.getRoom().sendMessage(event.getUser().getUsername() + " " + event.getType().name().toLowerCase() + "ed!");
     }
 
 }
