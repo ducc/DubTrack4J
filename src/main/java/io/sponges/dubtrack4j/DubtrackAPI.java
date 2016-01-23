@@ -24,8 +24,8 @@ public interface DubtrackAPI {
     Room joinRoom(String name) throws IOException, PubnubException;
 
     /**
-     * Gets the EventManager instance
-     * @return EventManager instance
+     * Gets the EventBus instance
+     * @return EventBus instance
      */
     EventBus getEventBus();
 
