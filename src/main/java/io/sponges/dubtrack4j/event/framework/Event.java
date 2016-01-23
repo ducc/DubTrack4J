@@ -1,6 +1,6 @@
 package io.sponges.dubtrack4j.event.framework;
 
-public class Event {
+public abstract class Event {
 
     protected void postEvent() {
     }
