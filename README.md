@@ -2,9 +2,27 @@
 A Java API for Dubtrack.
 
 [![Build Status](https://travis-ci.org/Sponges/DubTrack4J.svg?branch=master)](https://travis-ci.org/Sponges/DubTrack4J)
+[![JitPack](https://jitpack.io/v/sponges/dubtrack4j.svg)](https://jitpack.io/#sponges/dubtrack4j)
 
 ### Maven
-Will add soon
+This project uses JitPack as a maven repository (for now).
+
+Respository:
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
+
+Dependency:
+```xml
+<dependency>
+    <groupId>com.github.sponges</groupId>
+    <artifactId>dubtrack4j</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
 
 ### Usage
 ##### Creating your DubtrackAPI Builder instance:
