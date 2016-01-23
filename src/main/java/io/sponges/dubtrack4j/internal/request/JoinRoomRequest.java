@@ -1,6 +1,6 @@
 package io.sponges.dubtrack4j.internal.request;
 
-import io.sponges.dubtrack4j.DubAccount;
+import io.sponges.dubtrack4j.internal.DubAccount;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
@@ -25,7 +25,7 @@ public class JoinRoomRequest implements DubRequest {
         this.account = account;
     }
 
-    public Room request() throws IOException {
+    public Room request() throws JSONException, IOException {
         // Geting the room info
         Response response = dubtrack.getHttpRequester().get(URL.JOIN_ROOM + name);
 
@@ -41,7 +41,7 @@ public class JoinRoomRequest implements DubRequest {
 
         RoomImpl room = (RoomImpl) dubtrack.getRoom(id);
         if (room == null) {
-            dubtrack.getRooms().put(id, new RoomImpl(dubtrack, data.getString("roomUrl"), id));
+            dubtrack.addRoom(id, new RoomImpl(dubtrack, data.getString("roomUrl"), id));
             room = (RoomImpl) dubtrack.getRoom(id);
         }
 
@@ -69,7 +69,9 @@ public class JoinRoomRequest implements DubRequest {
         } catch (JSONException e) {
             if (e.getMessage().equalsIgnoreCase("JSONObject[\"currentSong\"] is not a JSONObject.")) {
                 Logger.debug("currentSong is null");
-            } else e.printStackTrace();
+            } else {
+                throw e;
+            }
         }
 
         Song current = new SongImpl(dubtrack, songId, user, room, songInfo);
@@ -84,6 +86,7 @@ public class JoinRoomRequest implements DubRequest {
                 e.printStackTrace();
             }
 
+            // TODO replace this with getting the updubs and downdubs instead of voting...
             try {
                 new SongDubRequest(id, DubType.UPDUB, dubtrack).request();
             } catch (IOException ignored) {}

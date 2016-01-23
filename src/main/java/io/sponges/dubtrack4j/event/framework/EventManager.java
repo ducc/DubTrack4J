@@ -7,6 +7,8 @@ import java.util.List;
 
 public class EventManager {
 
+    // TODO make this thread safe
+
     private final List<Listener> listeners = new ArrayList<>();
 
     /**

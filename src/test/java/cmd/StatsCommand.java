@@ -5,6 +5,8 @@ import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
 
+import java.io.IOException;
+
 public class StatsCommand extends Command {
 
     public StatsCommand() {
@@ -17,7 +19,11 @@ public class StatsCommand extends Command {
         int ups = song.getUpdubs();
         int downs = song.getDowndubs();
 
-        room.sendMessage(String.format("%s updubs & %s downdubs", ups, downs));
+        try {
+            room.sendMessage(String.format("%s updubs & %s downdubs", ups, downs));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

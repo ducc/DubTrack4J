@@ -1,4 +1,5 @@
 import cmd.CommandHandler;
+import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
 import io.sponges.dubtrack4j.util.Logger;
@@ -23,9 +24,15 @@ public class Bot {
 
         this.dubtrack = DubtrackBuilder.create(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
         this.dubtrack.getEventManager().registerListener(new DubtrackListener(commandHandler));
+
         Logger.info("Logged in!");
 
-        this.dubtrack.joinRoom("mikgreg");
+        try {
+            this.dubtrack.joinRoom("mikgreg");
+        } catch (PubnubException e) {
+            e.printStackTrace();
+            return;
+        }
         Logger.info("Joined 'sponges'!");
 
         //noinspection InfiniteLoopStatement,StatementWithEmptyBody

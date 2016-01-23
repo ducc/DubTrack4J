@@ -4,6 +4,8 @@ import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
 
+import java.io.IOException;
+
 public class TestCommand extends Command {
 
     public TestCommand() {
@@ -12,7 +14,11 @@ public class TestCommand extends Command {
 
     @Override
     public void onCommand(Room room, User user, Message message, String[] args) {
-        room.sendMessage("hi " + user.getUsername() + " :)");
+        try {
+            room.sendMessage("hi " + user.getUsername() + " :)");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

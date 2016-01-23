@@ -1,5 +1,7 @@
 package io.sponges.dubtrack4j.framework;
 
+import java.io.IOException;
+
 public interface Song {
 
     /**
@@ -43,16 +45,16 @@ public interface Song {
     /**
      * Makes the bot updub the song
      */
-    void updub();
+    void updub() throws IOException;
 
     /**
      * Makes the bot downdub the song
      */
-    void downdub();
+    void downdub() throws IOException;
 
     /**
      * Skips the song
      */
-    void skip();
+    void skip() throws IOException;
 
 }

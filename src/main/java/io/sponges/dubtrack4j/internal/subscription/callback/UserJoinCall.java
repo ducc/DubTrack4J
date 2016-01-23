@@ -6,6 +6,8 @@ import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class UserJoinCall extends SubCallback {
 
     private final DubtrackAPIImpl dubtrack;
@@ -15,7 +17,7 @@ public class UserJoinCall extends SubCallback {
     }
 
     @Override
-    public void run(JSONObject json) {
+    public void run(JSONObject json) throws IOException {
         String username = json.getJSONObject("user").getString("username");
         String userId = json.getJSONObject("user").getString("_id");
         String roomId = json.getJSONObject("roomUser").getString("roomid");

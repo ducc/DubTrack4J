@@ -6,6 +6,8 @@ import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class UserLeaveCall extends SubCallback {
 
     private final DubtrackAPIImpl dubtrack;
@@ -15,7 +17,7 @@ public class UserLeaveCall extends SubCallback {
     }
 
     @Override
-    public void run(JSONObject json) {
+    public void run(JSONObject json) throws IOException {
         // I don't know if this actually works, it rarely gets the type user-leave
 
         String username = json.getJSONObject("user").getString("username");

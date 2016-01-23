@@ -1,7 +1,7 @@
 package io.sponges.dubtrack4j.internal;
 
+import com.google.common.collect.ImmutableMap;
 import com.pubnub.api.PubnubException;
-import io.sponges.dubtrack4j.DubAccount;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.event.framework.EventManager;
 import io.sponges.dubtrack4j.framework.Room;
@@ -9,7 +9,6 @@ import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.request.JoinRoomRequest;
 import io.sponges.dubtrack4j.internal.request.Requester;
 import io.sponges.dubtrack4j.internal.request.RoomInfoRequest;
-import io.sponges.dubtrack4j.internal.request.SendMessageRequest;
 import io.sponges.dubtrack4j.internal.subscription.Subscribe;
 import io.sponges.dubtrack4j.util.Logger;
 import okhttp3.OkHttpClient;
@@ -57,33 +56,11 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     }
 
     @Override
-    public Room joinRoom(String name) {
-        Room room;
-        try {
-            room = new JoinRoomRequest(this, name, account).request();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        try {
-            new Subscribe(this, room.getName());
-        } catch (PubnubException e) {
-            Logger.warning("Could not subscribe to pubnub when joining the room!");
-            e.printStackTrace();
-            return null;
-        }
+    public Room joinRoom(String name) throws IOException, PubnubException {
+        Room room = new JoinRoomRequest(this, name, account).request();
+        new Subscribe(this, room.getName());
 
         return room;
-    }
-
-    @Override
-    public void sendMessage(Room room, String message) {
-        try {
-            new SendMessageRequest(room.getId(), message, this).request();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -98,27 +75,26 @@ public class DubtrackAPIImpl implements DubtrackAPI {
 
     @Override
     public Map<String, Room> getRooms() {
-        return rooms;
+        return ImmutableMap.copyOf(rooms);
     }
 
-    @Override
+    // Method exists because #getRooms is now immutable
+    public void addRoom(String id, Room room) {
+        rooms.put(id, room);
+    }
+
+    // Internal as manages token
     public DubAccount getAccount() {
         return account;
     }
 
-    public RoomImpl loadRoom(String id) {
+    public RoomImpl loadRoom(String id) throws IOException {
         Room room = getRoom(id);
 
         if (room == null) {
-            String name = null;
-            try {
-                JSONObject roomInfo = new RoomInfoRequest(this, id, account).request();
-                name = roomInfo.getJSONObject("data").getString("roomUrl");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            getRooms().put(id, new RoomImpl(this, name, id));
+            JSONObject roomInfo = new RoomInfoRequest(this, id, account).request();
+            String name = roomInfo.getJSONObject("data").getString("roomUrl");
+            rooms.put(id, new RoomImpl(this, name, id));
             room = getRoom(id);
         }
 

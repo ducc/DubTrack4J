@@ -6,6 +6,8 @@ import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.event.*;
 import io.sponges.dubtrack4j.event.framework.Listener;
 
+import java.io.IOException;
+
 public class DubtrackListener implements Listener {
 
     private final CommandHandler commandHandler;
@@ -31,7 +33,11 @@ public class DubtrackListener implements Listener {
         User user = event.getUser();
         Room room = event.getRoom();
 
-        room.sendMessage(user.getUsername() + " joined!");
+        try {
+            room.sendMessage(user.getUsername() + " joined!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -39,7 +45,11 @@ public class DubtrackListener implements Listener {
         User user = event.getUser();
         Room room = event.getRoom();
 
-        room.sendMessage(user.getUsername() + " left!");
+        try {
+            room.sendMessage(user.getUsername() + " left!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -50,13 +60,11 @@ public class DubtrackListener implements Listener {
 
         if (room == null || last == null || next == null) return;
 
-        room.sendMessage(String.format("Now playing %s! %s got +%s/-%s for %s", next.getSongInfo().getName(),
-                last.getUser()
-                        .getUsername(),
-                last.getUpdubs(),
-                last.getDowndubs(),
-                last.getSongInfo()
-                        .getName()));
+        try {
+            room.sendMessage(String.format("Now playing %s! %s got +%s/-%s for %s", next.getSongInfo().getName(), last.getUser().getUsername(), last.getUpdubs(), last.getDowndubs(), last.getSongInfo().getName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

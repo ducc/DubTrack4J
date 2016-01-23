@@ -1,7 +1,4 @@
-package io.sponges.dubtrack4j;
-
-import io.sponges.dubtrack4j.internal.Auth;
-import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
+package io.sponges.dubtrack4j.internal;
 
 import java.io.IOException;
 

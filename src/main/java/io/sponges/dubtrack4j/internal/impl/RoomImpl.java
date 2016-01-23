@@ -1,21 +1,17 @@
 package io.sponges.dubtrack4j.internal.impl;
 
-import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.exception.InvalidUserException;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
-import io.sponges.dubtrack4j.internal.request.BanUserRequest;
-import io.sponges.dubtrack4j.internal.request.KickUserRequest;
-import io.sponges.dubtrack4j.internal.request.RoomPlaylistRequest;
-import io.sponges.dubtrack4j.internal.request.UserInfoRequest;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.request.*;
 import io.sponges.dubtrack4j.util.Logger;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class RoomImpl implements Room {
 
@@ -24,8 +20,8 @@ public class RoomImpl implements Room {
     private final DubtrackAPIImpl dubtrack;
     private final String name, id;
 
-    private final AtomicReference<String> atomicPlaylistId = new AtomicReference<>();
-    private final AtomicReference<Song> current = new AtomicReference<>();
+    private volatile String playlistId = null;
+    private volatile Song current = null;
 
     public RoomImpl(DubtrackAPIImpl dubtrack, String name, String id) {
         this.dubtrack = dubtrack;
@@ -44,31 +40,16 @@ public class RoomImpl implements Room {
     }
 
     @Override
-    public String getPlaylistId() {
-        String playlistId = atomicPlaylistId.get();
-
+    public String getPlaylistId() throws IOException {
         if (playlistId == null) {
-            try {
-                playlistId = new RoomPlaylistRequest(id, dubtrack).request().getJSONObject("data").getJSONObject("song").getString("_id");
-                atomicPlaylistId.set(playlistId);
-            } catch (JSONException e) {
-                Logger.warning("Could not parse JSON for RoomPlaylistRequest! API change?\nMessage: " + e.getMessage());
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+            playlistId = new RoomPlaylistRequest(id, dubtrack).request().getJSONObject("data").getJSONObject("song").getString("_id");
         }
 
         return playlistId;
     }
 
-    public AtomicReference<String> getAtomicPlaylistId() {
-        return atomicPlaylistId;
-    }
-
     public void setPlaylistId(String playlistId) {
-        atomicPlaylistId.set(playlistId);
+        this.playlistId = playlistId;
     }
 
     @Override
@@ -94,17 +75,17 @@ public class RoomImpl implements Room {
 
     @Override
     public Song getCurrent() {
-        return current.get();
+        return current;
     }
 
     // not interfaced to prevent confusion between changing the song & setting the instance
     public void setCurrent(Song current) {
-        this.current.set(current);
+        this.current = current;
     }
 
     @Override
-    public void sendMessage(String message) {
-        dubtrack.sendMessage(this, message);
+    public void sendMessage(String message) throws IOException {
+        new SendMessageRequest(id, message, dubtrack).request();
     }
 
     public User loadUser(String id, String username) {
@@ -118,20 +99,12 @@ public class RoomImpl implements Room {
         return user;
     }
     
-    public User loadUser(DubtrackAPIImpl dubtrack, String id) {
+    public User loadUser(DubtrackAPIImpl dubtrack, String id) throws IOException {
         User user = getUserById(id);
 
         if (user == null) {
-            JSONObject userInfo = null;
-            try {
-                userInfo = new UserInfoRequest(dubtrack, id).request();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-
+            JSONObject userInfo = new UserInfoRequest(dubtrack, id).request();
             String username = userInfo.getJSONObject("data").getString("username");
-
             getUsers().put(id, new UserImpl(id, username));
             user = getUserById(id);
         }
@@ -140,51 +113,58 @@ public class RoomImpl implements Room {
     }
 
     @Override
-    public void kickUser(String username) {
+    public void kickUser(String username) throws IOException, InvalidUserException {
         User user = getUserByUsername(username);
+
+        if (user == null) {
+            throw new InvalidUserException(username);
+        }
+
         kickUser(user);
     }
 
     @Override
-    public void kickUser(User user) {
-        try {
-            JSONObject jsonObject = new KickUserRequest(dubtrack, dubtrack.getAccount(), id, name, user.getId()).request();
-            Logger.debug(jsonObject.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void kickUser(User user) throws IOException {
+        JSONObject jsonObject = new KickUserRequest(dubtrack, dubtrack.getAccount(), id, name, user.getId()).request();
+        Logger.debug(jsonObject.toString());
     }
 
     @Override
-    public void banUser(String username) {
+    public void banUser(String username) throws IOException, InvalidUserException {
         User user = getUserByUsername(username);
+
+        if (user == null) {
+            throw new InvalidUserException(username);
+        }
+
         banUser(user, 0);
     }
 
     @Override
-    public void banUser(String username, int length) {
+    public void banUser(String username, int length) throws IOException, InvalidUserException {
         User user = getUserByUsername(username);
+
+        if (user == null) {
+            throw new InvalidUserException(username);
+        }
+
         banUser(user, length);
     }
 
     @Override
-    public void banUser(User user) {
+    public void banUser(User user) throws IOException {
         banUser(user, 0);
     }
 
     @Override
-    public void banUser(User user, int length) {
-        try {
-            JSONObject jsonObject = new BanUserRequest(dubtrack, dubtrack.getAccount(), id, name, user.getId(), length).request();
-            Logger.debug(jsonObject.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void banUser(User user, int length) throws IOException {
+        JSONObject jsonObject = new BanUserRequest(dubtrack, dubtrack.getAccount(), id, name, user.getId(), length).request();
+        Logger.debug(jsonObject.toString());
     }
 
     @Override
-    public void skipSong() {
-        current.get().skip();
+    public void skipSong() throws IOException {
+        current.skip();
     }
 
 }

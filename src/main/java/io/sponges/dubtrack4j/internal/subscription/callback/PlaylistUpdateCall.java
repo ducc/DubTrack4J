@@ -9,6 +9,8 @@ import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class PlaylistUpdateCall extends SubCallback {
 
     private final DubtrackAPIImpl dubtrack;
@@ -18,7 +20,7 @@ public class PlaylistUpdateCall extends SubCallback {
     }
 
     @Override
-    public void run(JSONObject json) {
+    public void run(JSONObject json) throws IOException {
         JSONObject song = json.getJSONObject("song");
         JSONObject songInfo = json.getJSONObject("songInfo");
 

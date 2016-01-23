@@ -7,6 +7,8 @@ import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class ChatMessageCall extends SubCallback {
 
     private final DubtrackAPIImpl dubtrack;
@@ -16,7 +18,7 @@ public class ChatMessageCall extends SubCallback {
     }
 
     @Override
-    public void run(JSONObject json) {
+    public void run(JSONObject json) throws IOException {
         String message = json.getString("message");
         String username = json.getJSONObject("user").getString("username");
         String userId = json.getJSONObject("user").getString("_id");

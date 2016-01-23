@@ -1,5 +1,6 @@
 package io.sponges.dubtrack4j;
 
+import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.event.framework.EventManager;
 import io.sponges.dubtrack4j.framework.Room;
 
@@ -20,16 +21,25 @@ public interface DubtrackAPI {
      * @param name the name of the room (name is at the end of room url)
      * @return Room instance
      */
-    Room joinRoom(String name);
+    Room joinRoom(String name) throws IOException, PubnubException;
 
-    void sendMessage(Room room, String message);
-
+    /**
+     * Gets the EventManager instance
+     * @return EventManager instance
+     */
     EventManager getEventManager();
 
+    /**
+     * Gets an instance of a room by id
+     * @param id the id of the room
+     * @return Room instance
+     */
     Room getRoom(String id);
 
+    /**
+     * A Map of all the rooms
+     * @return rooms Map
+     */
     Map<String, Room> getRooms();
-
-    DubAccount getAccount();
 
 }

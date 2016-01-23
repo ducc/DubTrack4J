@@ -16,7 +16,7 @@ public class SongImpl implements Song {
     private final Room room;
     private final SongInfo songInfo;
 
-    private int updubs, downdubs = 0; // TODO make these atomic?
+    private volatile int updubs, downdubs = 0;
 
     public SongImpl(DubtrackAPIImpl dubtrack, String id, User user, Room room, SongInfo songInfo) {
         this.dubtrack = dubtrack;
@@ -66,30 +66,18 @@ public class SongImpl implements Song {
     }
 
     @Override
-    public void updub() {
-        try {
-            new SongDubRequest(room.getId(), DubType.UPDUB, dubtrack).request();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void updub() throws IOException {
+        new SongDubRequest(room.getId(), DubType.UPDUB, dubtrack).request();
     }
 
     @Override
-    public void downdub() {
-        try {
-            new SongDubRequest(room.getId(), DubType.DOWNDUB, dubtrack).request();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void downdub() throws IOException {
+        new SongDubRequest(room.getId(), DubType.DOWNDUB, dubtrack).request();
     }
 
     @Override
-    public void skip() {
-        try {
-            new SkipSongRequest(room.getId(), room.getPlaylistId(), dubtrack).request();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void skip() throws IOException {
+        new SkipSongRequest(room.getId(), room.getPlaylistId(), dubtrack).request();
     }
 
 }

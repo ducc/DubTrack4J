@@ -8,6 +8,8 @@ import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class PlaylistDubCall extends SubCallback {
 
     private final DubtrackAPIImpl dubtrack;
@@ -17,7 +19,7 @@ public class PlaylistDubCall extends SubCallback {
     }
 
     @Override
-    public void run(JSONObject json) {
+    public void run(JSONObject json) throws IOException {
         String username = json.getJSONObject("user").getString("username");
         String userId = json.getJSONObject("user").getString("_id");
         String roomId = json.getJSONObject("playlist").getString("roomid");

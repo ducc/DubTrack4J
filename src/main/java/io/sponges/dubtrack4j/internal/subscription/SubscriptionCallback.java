@@ -7,6 +7,7 @@ import io.sponges.dubtrack4j.internal.subscription.callback.*;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,11 @@ public class SubscriptionCallback extends Callback {
             return;
         }
 
-        callbacks.get(type).run(json);
+        try {
+            callbacks.get(type).run(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

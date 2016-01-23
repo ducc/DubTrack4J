@@ -4,6 +4,7 @@ import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 public class HelpCommand extends Command {
@@ -31,7 +32,11 @@ public class HelpCommand extends Command {
             }
         }
 
-        room.sendMessage(builder.toString());
+        try {
+            room.sendMessage(builder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
