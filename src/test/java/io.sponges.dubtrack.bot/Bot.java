@@ -24,10 +24,10 @@ public class Bot {
 
         this.dubtrack = DubtrackBuilder.create(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
         this.dubtrack.getEventManager().registerListener(new DubtrackListener(commandHandler));
-        System.out.println("Logged in!");
+        Logger.info("Logged in!");
 
-        this.dubtrack.joinRoom("sponges");
-        System.out.println("Joined 'sponges'!");
+        this.dubtrack.joinRoom("mikgreg");
+        Logger.info("Joined 'sponges'!");
 
         //noinspection InfiniteLoopStatement,StatementWithEmptyBody
         while (true);

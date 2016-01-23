@@ -7,7 +7,6 @@ import io.sponges.dubtrack4j.framework.SongInfo;
 import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
-import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
 
 public class PlaylistUpdateCall extends SubCallback {
@@ -20,8 +19,6 @@ public class PlaylistUpdateCall extends SubCallback {
 
     @Override
     public void run(JSONObject json) {
-        Logger.debug("PLAYLIST UPDATE = " + json.toString());
-
         JSONObject song = json.getJSONObject("song");
         JSONObject songInfo = json.getJSONObject("songInfo");
 

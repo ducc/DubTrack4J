@@ -16,6 +16,8 @@ public class SubscriptionCallback extends Callback {
     private final Map<String, SubCallback> callbacks;
 
     SubscriptionCallback(DubtrackAPIImpl dubtrack) {
+        Logger.debug("Subscribed!");
+
         this.dubtrack = dubtrack;
         this.callbacks = new HashMap<String, SubCallback>() {{
             put("chat-message", new ChatMessageCall(dubtrack));

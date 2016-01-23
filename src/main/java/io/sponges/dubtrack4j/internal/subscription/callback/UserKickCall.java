@@ -2,7 +2,6 @@ package io.sponges.dubtrack4j.internal.subscription.callback;
 
 import io.sponges.dubtrack4j.DubtrackAPI;
 import org.json.JSONObject;
-import io.sponges.dubtrack4j.util.Logger;
 
 public class UserKickCall extends SubCallback {
 
@@ -14,8 +13,6 @@ public class UserKickCall extends SubCallback {
 
     @Override
     public void run(JSONObject json) {
-        Logger.debug(json.toString());
-
         // TODO implement user kick callback
 
         //String roomId =

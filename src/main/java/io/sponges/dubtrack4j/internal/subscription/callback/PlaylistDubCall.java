@@ -6,7 +6,6 @@ import io.sponges.dubtrack4j.framework.DubType;
 import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;
-import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;
 
 public class PlaylistDubCall extends SubCallback {
@@ -19,8 +18,6 @@ public class PlaylistDubCall extends SubCallback {
 
     @Override
     public void run(JSONObject json) {
-        Logger.debug(json.toString());
-
         String username = json.getJSONObject("user").getString("username");
         String userId = json.getJSONObject("user").getString("_id");
         String roomId = json.getJSONObject("playlist").getString("roomid");

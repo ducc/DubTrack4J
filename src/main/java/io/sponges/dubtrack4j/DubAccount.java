@@ -9,7 +9,6 @@ public class DubAccount {
     private final DubtrackAPIImpl dubtrack;
     private final String username, password;
 
-    @Deprecated
     private String token = null;
 
     DubAccount(DubtrackAPIImpl dubtrack, String username, String password) {
@@ -23,10 +22,11 @@ public class DubAccount {
      * @throws IOException
      */
     public void login() throws IOException {
-        new Auth(dubtrack, username, password).login();
+        Auth auth = new Auth(dubtrack, username, password);
+        auth.login();
+        this.token = auth.getSid();
     }
 
-    @Deprecated
     public String getToken() {
         return token;
     }

@@ -16,7 +16,9 @@ public class CommandHandler {
         Collections.addAll(commands,
                 new TestCommand(),
                 new StatsCommand(),
-                new SkipCommand()
+                new SkipCommand(),
+                new HelpCommand(this),
+                new PropsCommand()
         );
     }
 
