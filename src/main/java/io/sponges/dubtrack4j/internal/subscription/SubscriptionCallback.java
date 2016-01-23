@@ -2,7 +2,7 @@ package io.sponges.dubtrack4j.internal.subscription;
 
 import com.pubnub.api.Callback;
 import com.pubnub.api.PubnubError;
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.internal.subscription.callback.*;
 import io.sponges.dubtrack4j.util.Logger;
 import org.json.JSONObject;

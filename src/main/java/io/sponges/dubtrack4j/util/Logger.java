@@ -1,6 +1,6 @@
 package io.sponges.dubtrack4j.util;
 
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import okhttp3.Request;
 import okio.Buffer;
 

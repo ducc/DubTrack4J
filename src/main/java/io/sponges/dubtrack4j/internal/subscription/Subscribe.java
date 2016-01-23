@@ -2,7 +2,7 @@ package io.sponges.dubtrack4j.internal.subscription;
 
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubException;
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 
 public class Subscribe {
 

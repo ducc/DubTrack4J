@@ -1,5 +1,4 @@
-package io.sponges.dubtrack.bot;
-
+import cmd.CommandHandler;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
 import io.sponges.dubtrack4j.util.Logger;

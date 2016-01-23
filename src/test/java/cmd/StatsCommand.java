@@ -1,4 +1,4 @@
-package io.sponges.dubtrack.bot;
+package cmd;
 
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;

@@ -1,6 +1,6 @@
 package io.sponges.dubtrack4j.internal.subscription.callback;
 
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.event.SongChangeEvent;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.SongInfo;

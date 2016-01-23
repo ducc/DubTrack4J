@@ -1,6 +1,5 @@
 package io.sponges.dubtrack4j.internal;
 
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.internal.request.Requester;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;

@@ -1,5 +1,4 @@
-package io.sponges.dubtrack.bot;
-
+import cmd.CommandHandler;
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;

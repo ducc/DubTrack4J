@@ -1,6 +1,7 @@
 package io.sponges.dubtrack4j;
 
 import io.sponges.dubtrack4j.internal.Auth;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 
 import java.io.IOException;
 
@@ -11,7 +12,7 @@ public class DubAccount {
 
     private String token = null;
 
-    DubAccount(DubtrackAPIImpl dubtrack, String username, String password) {
+    public DubAccount(DubtrackAPIImpl dubtrack, String username, String password) {
         this.dubtrack = dubtrack;
         this.username = username;
         this.password = password;

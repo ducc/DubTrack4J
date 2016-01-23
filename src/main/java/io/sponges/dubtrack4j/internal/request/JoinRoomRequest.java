@@ -1,7 +1,7 @@
 package io.sponges.dubtrack4j.internal.request;
 
 import io.sponges.dubtrack4j.DubAccount;
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;
 import io.sponges.dubtrack4j.internal.impl.SongImpl;

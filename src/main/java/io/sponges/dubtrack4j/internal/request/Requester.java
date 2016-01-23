@@ -1,6 +1,6 @@
 package io.sponges.dubtrack4j.internal.request;
 
-import io.sponges.dubtrack4j.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.Logger;
 import okhttp3.*;
 

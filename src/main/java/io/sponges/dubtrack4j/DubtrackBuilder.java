@@ -1,5 +1,6 @@
 package io.sponges.dubtrack4j;
 
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.Logger;
 
 import java.io.IOException;
