@@ -1,1 +1,8 @@
-TODO ignore idea files, anything in .idea dir
+/bin/
+.settings
+.idea
+.classpath
+.project
+*.iml
+dependency-reduced-pom.xml
+target/
