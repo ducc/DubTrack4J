@@ -33,7 +33,8 @@ public class CommandHandler {
                 new HelpCommand(this),
                 new PropsCommand(),
                 new UserInfoCommand(),
-                new CreatorCommand()
+                new CreatorCommand(),
+                new QueueCommand()
         );
     }
 

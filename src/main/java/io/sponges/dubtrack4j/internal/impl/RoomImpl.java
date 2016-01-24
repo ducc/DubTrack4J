@@ -13,10 +13,7 @@
 package io.sponges.dubtrack4j.internal.impl;
 
 import io.sponges.dubtrack4j.exception.InvalidUserException;
-import io.sponges.dubtrack4j.framework.ProfileImage;
-import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.Song;
-import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.internal.request.*;
 import io.sponges.dubtrack4j.util.Logger;
@@ -216,6 +213,11 @@ public class RoomImpl implements Room {
     @Override
     public void skipSong() throws IOException {
         current.skip();
+    }
+
+    @Override
+    public void queueSong(SongInfo.SourceType type, String id) throws IOException {
+        new QueueSongRequest(dubtrack, this.id, type, id).request();
     }
 
 }

@@ -10,28 +10,39 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.framework;
+package cmd;
 
-public interface User {
+import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.SongInfo;
+import io.sponges.dubtrack4j.framework.User;
 
-    /**
-     * The ID of the user
-     * @return user id
-     */
-    String getId();
+import java.io.IOException;
 
-    /**
-     * The username of the user
-     * @return username
-     */
-    String getUsername();
+public class QueueCommand extends Command {
 
-    // TODO getting user role, level etc
+    public QueueCommand() {
+        super("queues a song", "queue", "play", "q", "p");
+    }
 
-    /**
-     * The profile image of the user
-     * @return ProfileImage instance
-     */
-    ProfileImage getProfileImage();
+    @Override
+    public void onCommand(Room room, User user, Message message, String[] args) throws IOException {
+        if (args.length < 2) {
+            room.sendMessage("Invalid args! !queue <source> <id>");
+            return;
+        }
+
+        String typeString = args[0].toUpperCase();
+        SongInfo.SourceType type = SongInfo.SourceType.valueOf(typeString);
+
+        if (type == null) {
+            room.sendMessage("Invalid type " + args[0] + "! Valid types: youtube, soundcloud");
+            return;
+        }
+
+        String id = args[1];
+        room.queueSong(type, id);
+        room.sendMessage("Queued the song " + id + "!");
+    }
 
 }

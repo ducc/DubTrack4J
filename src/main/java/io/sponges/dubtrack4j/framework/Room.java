@@ -122,4 +122,11 @@ public interface Room {
 
     // TODO song queue management; adding, removing & viewing
 
+    /**
+     * Adds a song to the queue
+     * @param type where the song is from
+     * @param id the song id
+     */
+    void queueSong(SongInfo.SourceType type, String id) throws IOException;
+
 }
