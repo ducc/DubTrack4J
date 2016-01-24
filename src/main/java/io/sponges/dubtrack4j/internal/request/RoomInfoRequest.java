@@ -38,7 +38,7 @@ public class RoomInfoRequest implements DubRequest {
         Response response = dubtrack.getHttpRequester().get(URL.ROOM_INFO + name);
 
         String r = response.body().string();
-        Logger.debug(r);
+        Logger.debug("ROOM INFO " + r);
 
         return new JSONObject(r);
     }

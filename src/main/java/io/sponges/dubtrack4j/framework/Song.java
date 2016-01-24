@@ -25,7 +25,6 @@ public interface Song {
     /**
      * The user who is playing this song
      * @return User instance
-     * TODO fix this as currently returns the room creator
      */
     User getUser();
 
@@ -39,7 +38,6 @@ public interface Song {
     /**
      * Song related information
      * @return SongInfo instance
-     * TODO move this into this interface?
      */
     SongInfo getSongInfo();
 

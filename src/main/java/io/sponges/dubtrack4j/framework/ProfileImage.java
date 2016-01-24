@@ -10,32 +10,54 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cmd;
+package io.sponges.dubtrack4j.framework;
 
-import io.sponges.dubtrack4j.framework.Message;
-import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.Song;
-import io.sponges.dubtrack4j.framework.User;
+public class ProfileImage {
 
-import java.io.IOException;
+    private final String imageId;
+    private final int width;
+    private final int height;
+    private final String format;
+    private final int bytes;
+    private final String url;
+    private final String secureUrl;
 
-public class StatsCommand extends Command {
-
-    public StatsCommand() {
-        super("shows stats for the current song", "stats", "statistics", "stat");
+    public ProfileImage(String imageId, int width, int height, String format, int bytes, String url, String secureUrl) {
+        this.imageId = imageId;
+        this.width = width;
+        this.height = height;
+        this.format = format;
+        this.bytes = bytes;
+        this.url = url;
+        this.secureUrl = secureUrl;
     }
 
-    @Override
-    public void onCommand(Room room, User user, Message message, String[] args) {
-        Song song = room.getCurrentSong();
-        int ups = song.getUpdubs();
-        int downs = song.getDowndubs();
+    public String getImageId() {
+        return imageId;
+    }
 
-        try {
-            room.sendMessage(String.format("%s updubs & %s downdubs", ups, downs));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public int getBytes() {
+        return bytes;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getSecureUrl() {
+        return secureUrl;
     }
 
 }

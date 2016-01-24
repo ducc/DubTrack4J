@@ -28,4 +28,10 @@ public interface User {
 
     // TODO getting user role, avatar, level etc
 
+    /**
+     * The profile image of the user
+     * @return ProfileImage instance
+     */
+    ProfileImage getProfileImage();
+
 }

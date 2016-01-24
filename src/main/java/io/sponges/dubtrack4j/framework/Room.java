@@ -50,20 +50,26 @@ public interface Room {
      * @param username the username of the user
      * @return User instance
      */
-    User getUserByUsername(String username);
+    User getUserByUsername(String username) throws IOException;
 
     /**
      * Gets the user instance for the user with the defined id
      * @param id the id of the user
      * @return User instance
      */
-    User getUserById(String id);
+    User getUserById(String id) throws IOException;
 
     /**
      * The current song playing in the room
      * @return current Song
      */
-    Song getCurrent();
+    Song getCurrentSong();
+
+    /**
+     * The user who created the room
+     * @return User instance
+     */
+    User getCreator();
 
     /**
      * Sends a message in the room's chat

@@ -16,6 +16,8 @@ import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
 
+import java.io.IOException;
+
 public abstract class Command {
 
     private final String description;
@@ -26,7 +28,7 @@ public abstract class Command {
         this.names = names;
     }
 
-    public abstract void onCommand(Room room, User user, Message message, String[] args);
+    public abstract void onCommand(Room room, User user, Message message, String[] args) throws IOException;
 
     public String getDescription() {
         return description;

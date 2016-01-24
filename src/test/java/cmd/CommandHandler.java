@@ -16,6 +16,7 @@ import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,9 @@ public class CommandHandler {
                 new StatsCommand(),
                 new SkipCommand(),
                 new HelpCommand(this),
-                new PropsCommand()
+                new PropsCommand(),
+                new UserInfoCommand(),
+                new CreatorCommand()
         );
     }
 
@@ -52,10 +55,14 @@ public class CommandHandler {
 
                 String[] args = new String[split.length - 1];
                 for (int i = 1; i < split.length; i++) {
-                    args[i] = split[i];
+                    args[i - 1] = split[i];
                 }
 
-                cmd.onCommand(room,user, message, args);
+                try {
+                    cmd.onCommand(room,user, message, args);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return;
             }
         }

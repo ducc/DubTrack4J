@@ -38,7 +38,7 @@ public class UserInfoRequest implements DubRequest {
         Response response = dubtrack.getHttpRequester().get(URL.USER_INFO + name);
 
         String r = response.body().string();
-        Logger.debug(r);
+        Logger.debug("USER INFO " + r);
 
         return new JSONObject(r);
     }

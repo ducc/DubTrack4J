@@ -26,10 +26,10 @@ public class SkipCommand extends Command {
 
     @Override
     public void onCommand(Room room, User user, Message message, String[] args) {
-        System.out.println("old song id " + room.getCurrent().getId());
+        System.out.println("old song id " + room.getCurrentSong().getId());
         System.out.println("room id " + room.getId());
         try {
-            room.getCurrent().skip();
+            room.skipSong();
             room.sendMessage("Skipped!");
         } catch (IOException e) {
             e.printStackTrace();

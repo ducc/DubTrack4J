@@ -45,13 +45,23 @@ public class PlaylistUpdateCall extends SubCallback {
         String songName = songInfo.getString("name");
         long songLength = songInfo.getLong("songLength");
 
-        RoomImpl room = dubtrack.loadRoom(roomId);
-        User user = room.loadUser(dubtrack, userId);
+        String sourceTypeId = songInfo.getString("type");
+        SongInfo.SourceType sourceType = SongInfo.SourceType.valueOf(sourceTypeId.toUpperCase());
+        String sourceId = songInfo.getString("fkid");
 
-        SongInfo sInfo = new SongInfo(songName, songLength);
+        RoomImpl room = dubtrack.loadRoom(roomId);
+        User user = room.getOrLoadUser(userId);
+
+        SongInfo sInfo = new SongInfo(songName, songLength, sourceType);
+        if (sourceType == SongInfo.SourceType.YOUTUBE) {
+            sInfo.setYoutubeId(sourceId);
+        } else {
+            sInfo.setSoundcloudId(sourceId);
+        }
+
         Song s = new SongImpl(dubtrack, songId, user, room, sInfo);
 
-        Song previous = room.getCurrent();
+        Song previous = room.getCurrentSong();
         room.setCurrent(s);
         room.setPlaylistId(playlistId);
 

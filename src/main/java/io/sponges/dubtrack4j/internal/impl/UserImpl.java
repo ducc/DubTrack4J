@@ -12,16 +12,19 @@
 
 package io.sponges.dubtrack4j.internal.impl;
 
+import io.sponges.dubtrack4j.framework.ProfileImage;
 import io.sponges.dubtrack4j.framework.User;
 
 public class UserImpl implements User {
 
     private final String id;
     private final String username;
+    private final ProfileImage profileImage;
 
-    public UserImpl(String id, String username) {
+    public UserImpl(String id, String username, ProfileImage profileImage) {
         this.id = id;
         this.username = username;
+        this.profileImage = profileImage;
     }
 
     @Override
@@ -32,6 +35,11 @@ public class UserImpl implements User {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public ProfileImage getProfileImage() {
+        return profileImage;
     }
 
 }

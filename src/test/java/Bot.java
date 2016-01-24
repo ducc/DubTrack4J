@@ -51,13 +51,17 @@ public class Bot {
 
             System.out.printf("[%s] %s: %s\n", room.getName(), user.getUsername(), content);
 
-            commandHandler.handle(room, user, message);
+            try {
+                commandHandler.handle(room, user, message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         Logger.info("Logged in!");
 
         try {
-            this.dubtrack.joinRoom("rap-universe");
+            this.dubtrack.joinRoom("sponges");
         } catch (PubnubException e) {
             e.printStackTrace();
             return;

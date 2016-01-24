@@ -16,10 +16,15 @@ public class SongInfo {
 
     private final String name;
     private final double length;
+    private final SourceType sourceType;
 
-    public SongInfo(String name, double length) {
+    private String youtubeId = null;
+    private String soundcloudId = null;
+
+    public SongInfo(String name, double length, SourceType sourceType) {
         this.name = name;
         this.length = length;
+        this.sourceType = sourceType;
     }
 
     /**
@@ -38,7 +43,31 @@ public class SongInfo {
         return length;
     }
 
-    // TODO more song info
-    // e.g. description, thumbnail, youtube link, likes, dislikes, author etc
+    public SourceType getSourceType() {
+        return sourceType;
+    }
+
+    public String getYoutubeId() {
+        return youtubeId;
+    }
+
+    public void setYoutubeId(String youtubeId) {
+        this.youtubeId = youtubeId;
+    }
+
+    public String getSoundcloudId() {
+        return soundcloudId;
+    }
+
+    public void setSoundcloudId(String soundcloudId) {
+        this.soundcloudId = soundcloudId;
+    }
+
+    public enum SourceType {
+
+        YOUTUBE, SOUNDCLOUD
+
+    }
+
 
 }

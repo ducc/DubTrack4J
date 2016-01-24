@@ -21,7 +21,6 @@ package io.sponges.dubtrack4j.util;
 public enum URL {
 
     // Auth
-    LOGIN("https://www.dubtrack.fm/login"),
     AUTH("https://api.dubtrack.fm/auth/dubtrack"),
 
     // Requests

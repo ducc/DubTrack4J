@@ -38,7 +38,7 @@ public class ChatMessageCall extends SubCallback {
         long time = json.getJSONObject("queue_object").getLong("updated");
 
         RoomImpl room = dubtrack.loadRoom(roomId);
-        User user = room.loadUser(userId, username);
+        User user = room.getOrLoadUser(userId);
 
         Message msg = new Message(user, room, time, message);
         dubtrack.getEventBus().post(new UserChatEvent(msg));

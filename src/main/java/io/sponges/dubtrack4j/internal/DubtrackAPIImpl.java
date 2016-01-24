@@ -108,7 +108,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
         if (room == null) {
             JSONObject roomInfo = new RoomInfoRequest(this, id, account).request();
             String name = roomInfo.getJSONObject("data").getString("roomUrl");
-            rooms.put(id, new RoomImpl(this, name, id));
+            rooms.put(id, new RoomImpl(this, name, id)); // TODO get user
             room = getRoom(id);
         }
 

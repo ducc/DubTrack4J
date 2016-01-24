@@ -13,6 +13,7 @@
 package io.sponges.dubtrack4j.internal.impl;
 
 import io.sponges.dubtrack4j.exception.InvalidUserException;
+import io.sponges.dubtrack4j.framework.ProfileImage;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
@@ -31,6 +32,8 @@ public class RoomImpl implements Room {
 
     private final DubtrackAPIImpl dubtrack;
     private final String name, id;
+
+    private User creator;
 
     private volatile String playlistId = null;
     private volatile Song current = null;
@@ -70,24 +73,46 @@ public class RoomImpl implements Room {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(String username) throws IOException {
         for (User user : users.values()) {
             if (user.getUsername().equalsIgnoreCase(username)) {
                 return user;
             }
         }
 
-        return null;
+        String id = getUserIdFromUsername(username);
+        return getUserById(id);
+    }
+
+    private String getUserIdFromUsername(String username) throws IOException {
+        JSONObject json = new UserInfoRequest(dubtrack, username).request();
+        JSONObject userInfo = json.getJSONObject("data").getJSONObject("userInfo");
+        return userInfo.getString("userid");
     }
 
     @Override
-    public User getUserById(String id) {
-        return users.get(id);
+    public User getUserById(String id) throws IOException {
+        User user = users.get(id);
+
+        if (user == null) {
+            return loadUserData(id);
+        } else {
+            return user;
+        }
     }
 
     @Override
-    public Song getCurrent() {
+    public Song getCurrentSong() {
         return current;
+    }
+
+    @Override
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     // not interfaced to prevent confusion between changing the song & setting the instance
@@ -99,28 +124,42 @@ public class RoomImpl implements Room {
     public void sendMessage(String message) throws IOException {
         new SendMessageRequest(id, message, dubtrack).request();
     }
-
-    public User loadUser(String id, String username) {
+    
+    public User getOrLoadUser(String id) throws IOException {
         User user = getUserById(id);
 
         if (user == null) {
-            getUsers().put(id, new UserImpl(id, username));
-            user = getUserById(id);
+            loadUserData(id);
         }
 
         return user;
     }
-    
-    public User loadUser(DubtrackAPIImpl dubtrack, String id) throws IOException {
-        User user = getUserById(id);
 
-        if (user == null) {
-            JSONObject userInfo = new UserInfoRequest(dubtrack, id).request();
-            String username = userInfo.getJSONObject("data").getString("username");
-            getUsers().put(id, new UserImpl(id, username));
-            user = getUserById(id);
+    private User loadUserData(String id) throws IOException {
+        JSONObject userInfo = new UserInfoRequest(dubtrack, id).request();
+        JSONObject data = userInfo.getJSONObject("data");
+        String username = data.getString("username");
+        int status = data.getInt("status");
+        int roleId = data.getInt("roleid");
+        int dubs = data.getInt("dubs");
+        long created = data.getLong("created");
+
+        ProfileImage profileImage;
+        {
+            JSONObject image = data.getJSONObject("profileImage");
+            String imageId = image.getString("public_id");
+            int width = image.getInt("width");
+            int height = image.getInt("height");
+            String format = image.getString("format");
+            int bytes = image.getInt("bytes");
+            String url = image.getString("url");
+            String secureUrl = image.getString("secure_url");
+
+            profileImage = new ProfileImage(imageId, width, height, format, bytes, url, secureUrl);
         }
 
+        User user = new UserImpl(id, username, profileImage);
+        users.put(id, user);
         return user;
     }
 

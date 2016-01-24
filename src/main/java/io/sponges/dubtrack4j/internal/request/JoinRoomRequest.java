@@ -61,6 +61,10 @@ public class JoinRoomRequest implements DubRequest {
         if (room == null) {
             dubtrack.addRoom(id, new RoomImpl(dubtrack, data.getString("roomUrl"), id));
             room = (RoomImpl) dubtrack.getRoom(id);
+
+            String creatorId = data.getString("userid");
+            User creator = room.getOrLoadUser(creatorId);
+            room.setCreator(creator);
         }
 
         JSONObject currentSong;
@@ -77,14 +81,9 @@ public class JoinRoomRequest implements DubRequest {
             songName = currentSong.getString("name");
 
             String type = currentSong.getString("type").toLowerCase();
-            switch (type) {
-                case "youtube": {
-                    String videoId = currentSong.getString("fkid"); // TODO do something with this
-                    break;
-                }
+            SongInfo.SourceType sourceType = SongInfo.SourceType.valueOf(type.toUpperCase());
 
-                default: break;
-            }
+            String sourceId = currentSong.getString("fkid");
 
             //userId = json.getJSONObject("data").getString("userid"); // this is actually the room owner id TODO do something with this
             JSONObject songInfoRequest = new SongInfoRequest(dubtrack, songId, dubtrack.getAccount()).request();
@@ -92,7 +91,10 @@ public class JoinRoomRequest implements DubRequest {
 
             JSONObject songData = songInfoRequest.getJSONObject("data");
             songLength = songData.getLong("songLength");
-            songInfo = new SongInfo(songName, songLength);
+            songInfo = new SongInfo(songName, songLength, sourceType);
+
+            if (sourceType == SongInfo.SourceType.YOUTUBE) songInfo.setYoutubeId(sourceId);
+            else if (sourceType == SongInfo.SourceType.SOUNDCLOUD) songInfo.setSoundcloudId(sourceId);
 
             // TODO get more info from this request
             RoomPlaylistRequest playlistRequest = new RoomPlaylistRequest(id, dubtrack);
@@ -102,7 +104,7 @@ public class JoinRoomRequest implements DubRequest {
             Logger.debug("PLAYLIST REQUEST " + playlistJson.toString());
 
             userId = playlistSong.getString("_user");
-            user = room.loadUser(dubtrack, userId);
+            user = room.getOrLoadUser(userId);
         } catch (JSONException e) {
             if (e.getMessage().equalsIgnoreCase("JSONObject[\"currentSong\"] is not a JSONObject.")) {
                 Logger.debug("currentSong is null");

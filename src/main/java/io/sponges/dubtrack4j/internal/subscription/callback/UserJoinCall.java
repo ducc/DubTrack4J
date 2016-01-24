@@ -35,7 +35,7 @@ public class UserJoinCall extends SubCallback {
         String roomId = json.getJSONObject("roomUser").getString("roomid");
 
         RoomImpl room = dubtrack.loadRoom(roomId);
-        User user = room.loadUser(userId, username);
+        User user = room.getOrLoadUser(userId);
 
         dubtrack.getEventBus().post(new UserJoinEvent(user, room));
     }

@@ -13,26 +13,48 @@
 package cmd;
 
 import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.ProfileImage;
 import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
 
-public class StatsCommand extends Command {
+public class UserInfoCommand extends Command {
 
-    public StatsCommand() {
-        super("shows stats for the current song", "stats", "statistics", "stat");
+    public UserInfoCommand() {
+        super("shows info about the user", "userinfo", "user", "u");
     }
 
     @Override
-    public void onCommand(Room room, User user, Message message, String[] args) {
-        Song song = room.getCurrentSong();
-        int ups = song.getUpdubs();
-        int downs = song.getDowndubs();
+    public void onCommand(Room room, User user, Message message, String[] args) throws IOException {
+        User u;
+
+        if (args.length == 0) {
+            u = user;
+        } else {
+            String username = args[0];
+            u = room.getUserByUsername(username);
+        }
+
+        if (u == null) {
+            try {
+                room.sendMessage("Could not find that user!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("ID: ").append(u.getId()).append(", ");
+
+        ProfileImage image = u.getProfileImage();
+
+        builder.append("image dimensions: ").append(image.getHeight()).append("x").append(image.getWidth()).append(", ");
+        builder.append("profile image: ").append(image.getUrl());
 
         try {
-            room.sendMessage(String.format("%s updubs & %s downdubs", ups, downs));
+            room.sendMessage(builder.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

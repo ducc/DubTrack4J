@@ -14,28 +14,21 @@ package cmd;
 
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
 
-public class StatsCommand extends Command {
+public class CreatorCommand extends Command {
 
-    public StatsCommand() {
-        super("shows stats for the current song", "stats", "statistics", "stat");
+    public CreatorCommand() {
+        super("gets the room creator", "creator", "roomcreator", "roomowner", "owner");
     }
 
     @Override
-    public void onCommand(Room room, User user, Message message, String[] args) {
-        Song song = room.getCurrentSong();
-        int ups = song.getUpdubs();
-        int downs = song.getDowndubs();
+    public void onCommand(Room room, User user, Message message, String[] args) throws IOException {
+        User creator = room.getCreator();
+        String username = creator.getUsername();
 
-        try {
-            room.sendMessage(String.format("%s updubs & %s downdubs", ups, downs));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        room.sendMessage("This room was created by @" + username + "!");
     }
-
 }

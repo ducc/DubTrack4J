@@ -28,7 +28,7 @@ public class PropsCommand extends Command {
 
     @Override
     public void onCommand(Room room, User user, Message message, String[] args) {
-        Song song = room.getCurrent();
+        Song song = room.getCurrentSong();
         User dj = song.getUser();
 
         if (Objects.equals(dj.getId(), user.getId())) {
