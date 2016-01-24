@@ -36,6 +36,7 @@ public class KickUserRequest implements DubRequest {
         this.userId = userId;
     }
 
+    @Override
     public JSONObject request() throws IOException {
         Connection.Response r = Jsoup.connect(String.format(URL.KICK_USER.toString(), roomId, userId))
                 .userAgent("Mozilla/5.0 DubTrack4J")

@@ -12,5 +12,12 @@
 
 package io.sponges.dubtrack4j.internal.request;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 public interface DubRequest {
+
+    JSONObject request() throws IOException;
+
 }

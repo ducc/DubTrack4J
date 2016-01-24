@@ -33,6 +33,7 @@ public class UserInfoRequest implements DubRequest {
         this.account = dubtrack.getAccount();
     }
 
+    @Override
     public JSONObject request() throws IOException {
         Response response = dubtrack.getHttpRequester().get(URL.USER_INFO + name);
 

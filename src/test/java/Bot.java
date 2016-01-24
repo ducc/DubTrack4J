@@ -15,7 +15,6 @@ import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
 import io.sponges.dubtrack4j.event.UserChatEvent;
-import io.sponges.dubtrack4j.event.UserJoinEvent;
 import io.sponges.dubtrack4j.event.framework.EventBus;
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
@@ -55,18 +54,10 @@ public class Bot {
             commandHandler.handle(room, user, message);
         });
 
-        bus.register(UserJoinEvent.class, event -> {
-            try {
-                event.getRoom().sendMessage(event.getUser().getUsername() + " left!");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
         Logger.info("Logged in!");
 
         try {
-            this.dubtrack.joinRoom("mikgreg");
+            this.dubtrack.joinRoom("rap-universe");
         } catch (PubnubException e) {
             e.printStackTrace();
             return;

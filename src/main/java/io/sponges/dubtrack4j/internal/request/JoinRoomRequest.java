@@ -37,13 +37,19 @@ public class JoinRoomRequest implements DubRequest {
         this.account = account;
     }
 
-    public Room request() throws JSONException, IOException {
-        // Geting the room info
+    @Override
+    public JSONObject request() throws JSONException, IOException {
         Response response = dubtrack.getHttpRequester().get(URL.JOIN_ROOM + name);
-
         String str = response.body().string();
-        Logger.debug("JOIN " + str);
+
+        Logger.debug("JOIN ROOM " + str);
+
         JSONObject json = new JSONObject(str);
+
+        return json;
+    }
+
+    public Room getRoom(JSONObject json) throws IOException {
         JSONObject data = json.getJSONObject("data");
         String id = data.getString("_id");
 
@@ -70,14 +76,33 @@ public class JoinRoomRequest implements DubRequest {
             songId = currentSong.getString("songid");
             songName = currentSong.getString("name");
 
-            userId = json.getJSONObject("data").getString("userid");
-            user = room.loadUser(dubtrack, userId);
+            String type = currentSong.getString("type").toLowerCase();
+            switch (type) {
+                case "youtube": {
+                    String videoId = currentSong.getString("fkid"); // TODO do something with this
+                    break;
+                }
 
+                default: break;
+            }
+
+            //userId = json.getJSONObject("data").getString("userid"); // this is actually the room owner id TODO do something with this
             JSONObject songInfoRequest = new SongInfoRequest(dubtrack, songId, dubtrack.getAccount()).request();
             Logger.debug("SONGINFO " + songInfoRequest.toString());
 
-            songLength = songInfoRequest.getJSONObject("data").getLong("songLength");
+            JSONObject songData = songInfoRequest.getJSONObject("data");
+            songLength = songData.getLong("songLength");
             songInfo = new SongInfo(songName, songLength);
+
+            // TODO get more info from this request
+            RoomPlaylistRequest playlistRequest = new RoomPlaylistRequest(id, dubtrack);
+            JSONObject playlistJson = playlistRequest.request();
+            JSONObject playlistData = playlistJson.getJSONObject("data");
+            JSONObject playlistSong = playlistData.getJSONObject("song");
+            Logger.debug("PLAYLIST REQUEST " + playlistJson.toString());
+
+            userId = playlistSong.getString("_user");
+            user = room.loadUser(dubtrack, userId);
         } catch (JSONException e) {
             if (e.getMessage().equalsIgnoreCase("JSONObject[\"currentSong\"] is not a JSONObject.")) {
                 Logger.debug("currentSong is null");

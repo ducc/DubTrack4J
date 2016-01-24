@@ -69,7 +69,9 @@ public class DubtrackAPIImpl implements DubtrackAPI {
 
     @Override
     public Room joinRoom(String name) throws IOException, PubnubException {
-        Room room = new JoinRoomRequest(this, name, account).request();
+        JoinRoomRequest request = new JoinRoomRequest(this, name, account);
+        JSONObject json = request.request();
+        Room room = request.getRoom(json);
         new Subscribe(this, room.getName());
 
         return room;

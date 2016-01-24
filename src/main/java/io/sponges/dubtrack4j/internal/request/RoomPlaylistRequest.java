@@ -33,11 +33,12 @@ public class RoomPlaylistRequest implements DubRequest {
         this.account = dubtrack.getAccount();
     }
 
+    @Override
     public JSONObject request() throws IOException {
         Response response = dubtrack.getHttpRequester().get(String.format(URL.ROOM_PLAYLIST.toString(), room));
 
         String r = response.body().string();
-        Logger.debug(r);
+        Logger.debug("ROOM PLAYLIST " + r);
 
         return new JSONObject(r);
     }

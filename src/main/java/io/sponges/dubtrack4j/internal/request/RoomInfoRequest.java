@@ -33,6 +33,7 @@ public class RoomInfoRequest implements DubRequest {
         this.account = account;
     }
 
+    @Override
     public JSONObject request() throws IOException {
         Response response = dubtrack.getHttpRequester().get(URL.ROOM_INFO + name);
 

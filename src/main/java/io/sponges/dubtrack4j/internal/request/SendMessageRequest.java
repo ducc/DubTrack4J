@@ -35,6 +35,7 @@ public class SendMessageRequest implements DubRequest {
         this.account = dubtrack.getAccount();
     }
 
+    @Override
     public JSONObject request() throws IOException {
         Response response = dubtrack.getHttpRequester().post(URL.SEND_MESSAGE + room, new HashMap<String, String>() {{
             put("message", message);
