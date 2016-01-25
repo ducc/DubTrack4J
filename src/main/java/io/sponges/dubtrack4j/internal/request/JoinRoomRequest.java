@@ -44,9 +44,7 @@ public class JoinRoomRequest implements DubRequest {
 
         Logger.debug("JOIN ROOM " + str);
 
-        JSONObject json = new JSONObject(str);
-
-        return json;
+        return new JSONObject(str);
     }
 
     public Room getRoom(JSONObject json) throws IOException {
@@ -116,7 +114,7 @@ public class JoinRoomRequest implements DubRequest {
         Song current = new SongImpl(dubtrack, songId, user, room, songInfo);
         room.setCurrent(current);
 
-        // TODO change from new thread to executor service
+        // TODO find a better way of getting current song votes
         // updating the updub stats - delay 1s so the framework loads
         new Thread(() -> {
             try {

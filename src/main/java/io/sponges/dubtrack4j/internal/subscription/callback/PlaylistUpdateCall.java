@@ -64,8 +64,8 @@ public class PlaylistUpdateCall extends SubCallback {
         Song previous = room.getCurrentSong();
         room.setCurrent(s);
         room.setPlaylistId(playlistId);
-
         room.getInternalRoomQueue().remove(previous);
+        room.loadRoomQueue(); // updating the queue
 
         dubtrack.getEventBus().post(new SongChangeEvent(previous, s, room));
     }

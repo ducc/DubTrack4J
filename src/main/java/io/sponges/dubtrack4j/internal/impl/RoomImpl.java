@@ -116,7 +116,7 @@ public class RoomImpl implements Room {
 
     @Override
     public List<Song> getRoomQueue() throws IOException {
-        loadRoomQueue();
+        if (roomQueue.isEmpty()) loadRoomQueue();
 
         return ImmutableList.copyOf(roomQueue);
     }
@@ -126,16 +126,20 @@ public class RoomImpl implements Room {
         return roomQueue;
     }
 
-    private void loadRoomQueue() throws IOException {
+    public void loadRoomQueue() throws IOException {
         JSONObject json = new RoomQueueRequest(dubtrack, id).request();
         JSONArray array = json.getJSONArray("data");
+        if (array.isNull(0)) return;
 
-        List<String> idsToRemove = new ArrayList<>();
-        List<Song> songsToAdd = new ArrayList<>();
+        roomQueue.clear();
+
+        List<String> ids = roomQueue.stream().map(Song::getId).collect(Collectors.toList());
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject object = array.getJSONObject(i);
             String songId = object.getString("_id");
+
+            if (ids.contains(songId)) continue;
 
             JSONObject userObject = object.getJSONObject("_user");
             String userId = userObject.getString("_id");
@@ -154,13 +158,8 @@ public class RoomImpl implements Room {
             else if (sourceType == SongInfo.SourceType.SOUNDCLOUD) songInfo.setSoundcloudId(sourceId);
 
             Song song = new SongImpl(dubtrack, songId, user, this, songInfo);
-            idsToRemove.add(song.getId());
-            songsToAdd.add(song);
+            roomQueue.add(song);
         }
-
-        // to avoid concurrent modification
-        songsToAdd.stream().filter(song -> idsToRemove.contains(song.getId())).forEach(songsToAdd::remove);
-        roomQueue.addAll(songsToAdd.stream().collect(Collectors.toList()));
     }
 
     public void setCreator(User creator) {

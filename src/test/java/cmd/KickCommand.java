@@ -10,40 +10,38 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.internal.request;
+package cmd;
 
-import io.sponges.dubtrack4j.internal.DubAccount;
-import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
-import io.sponges.dubtrack4j.util.URL;
-import okhttp3.Response;
-import org.json.JSONObject;
+import io.sponges.dubtrack4j.exception.InvalidUserException;
+import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
-import java.util.HashMap;
 
-public class KickUserRequest implements DubRequest {
+public class KickCommand extends Command {
 
-    private final DubtrackAPIImpl dubtrack;
-    private final DubAccount account;
-
-    private final String roomId, roomName, userId;
-
-    public KickUserRequest(DubtrackAPIImpl dubtrack, DubAccount account, String roomId, String roomName, String userId) throws IOException {
-        this.dubtrack = dubtrack;
-        this.account = account;
-        this.roomId = roomId;
-        this.roomName = roomName;
-        this.userId = userId;
+    public KickCommand() {
+        super("kicks a user from the room", "kick", "k");
     }
 
     @Override
-    public JSONObject request() throws IOException {
-        String url = String.format(URL.KICK_USER.toString(), roomId, userId);
+    public void onCommand(Room room, User user, Message message, String[] args) throws IOException {
+        if (!user.getUsername().equalsIgnoreCase("sponges")) return;
 
-        Response response = dubtrack.getHttpRequester().post(url, new HashMap<String, String>() {{
-            put("realTimeChannel", "dubtrackfm-" + roomName);
-        }});
+        if (args.length == 0) {
+            room.sendMessage("Specify user!");
+            return;
+        }
 
-        return new JSONObject(response.body().string());
+        String u = args[0];
+
+        try {
+            room.kickUser(u);
+            room.sendMessage("Kicked " + u + "!");
+        } catch (InvalidUserException e) {
+            room.sendMessage("Could not find that user!");
+        }
     }
+
 }
