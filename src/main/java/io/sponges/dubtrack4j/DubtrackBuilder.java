@@ -23,7 +23,7 @@ public final class DubtrackBuilder {
 
     private Logger.LoggingMode loggingMode = Logger.LoggingMode.NORMAL;
 
-    private DubtrackBuilder(String username, String password) {
+    public DubtrackBuilder(String username, String password) {
         this.username = username;
         this.password = password;
     }

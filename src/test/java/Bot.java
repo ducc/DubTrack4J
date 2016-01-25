@@ -41,7 +41,7 @@ public class Bot {
             System.exit(-1);
         }
 
-        this.dubtrack = DubtrackBuilder.create(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
+        this.dubtrack = new DubtrackBuilder(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
 
         EventBus bus = this.dubtrack.getEventBus();
 
