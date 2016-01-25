@@ -27,7 +27,8 @@ Dependency:
 ### Usage
 ##### Creating your DubtrackAPI Builder instance:
 ```java
-DubtrackBuilder builder = DubtrackBuilder.create(username, password);
+DubtrackBuilder builder = new DubtrackBuilder(username, password);
+// here you can set the properties with the builder instance
 DubtrackAPI dubtrack = builder.buildAndLogin();
 ```
 

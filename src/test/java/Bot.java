@@ -46,7 +46,7 @@ public class Bot {
         EventBus bus = this.dubtrack.getEventBus();
 
         bus.register(UserEvent.class, event -> {
-            System.out.println("ok");
+            // TODO find out why this doesn't seem to work, something wrong with EventBus?
             System.out.println("user event fired " + event.getClass().getName());
         });
 
