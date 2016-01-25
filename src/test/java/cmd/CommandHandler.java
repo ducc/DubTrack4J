@@ -34,7 +34,9 @@ public class CommandHandler {
                 new PropsCommand(),
                 new UserInfoCommand(),
                 new CreatorCommand(),
-                new QueueCommand()
+                new QueueCommand(),
+                new RoomQueueCommand(),
+                new RemoveAllCommand()
         );
     }
 

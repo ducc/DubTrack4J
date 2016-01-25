@@ -15,6 +15,7 @@ import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
 import io.sponges.dubtrack4j.event.UserChatEvent;
+import io.sponges.dubtrack4j.event.UserDubEvent;
 import io.sponges.dubtrack4j.event.framework.EventBus;
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
@@ -55,6 +56,19 @@ public class Bot {
                 commandHandler.handle(room, user, message);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        });
+
+        bus.register(UserDubEvent.class, event -> {
+            int downdubs = event.getSong().getDowndubs();
+
+            if (downdubs > 1) {
+                try {
+                    event.getSong().skip();
+                    event.getRoom().sendMessage("Got 2 down dubs so skipped tbh!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

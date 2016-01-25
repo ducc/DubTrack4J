@@ -10,34 +10,30 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package cmd;
+package io.sponges.dubtrack4j.internal.request;
 
-import io.sponges.dubtrack4j.framework.Message;
-import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.util.URL;
+import okhttp3.Response;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class SkipCommand extends Command {
+public class RoomQueueRequest implements DubRequest {
 
-    public SkipCommand() {
-        super("skips a song", "skip");
+    private final DubtrackAPIImpl dubtrack;
+    private final String room;
+
+    public RoomQueueRequest(DubtrackAPIImpl dubtrack, String room) {
+        this.dubtrack = dubtrack;
+        this.room = room;
     }
 
     @Override
-    public void onCommand(Room room, User user, Message message, String[] args) {
-        if (!user.getUsername().equalsIgnoreCase("sponges")) {
-            return;
-        }
-
-        System.out.println("old song id " + room.getCurrentSong().getId());
-        System.out.println("room id " + room.getId());
-        try {
-            room.skipSong();
-            room.sendMessage("Skipped!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public JSONObject request() throws IOException {
+        String url = String.format(URL.ROOM_QUEUE.toString(), room);
+        Response response = dubtrack.getHttpRequester().get(url);
+        return new JSONObject(response.body().string());
     }
 
 }

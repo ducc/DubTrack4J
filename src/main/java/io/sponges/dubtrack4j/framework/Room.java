@@ -15,6 +15,7 @@ package io.sponges.dubtrack4j.framework;
 import io.sponges.dubtrack4j.exception.InvalidUserException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public interface Room {
@@ -70,6 +71,12 @@ public interface Room {
      * @return User instance
      */
     User getCreator();
+
+    /**
+     * A list containing every song in the room queue
+     * @return song list
+     */
+    List<Song> getRoomQueue() throws IOException;
 
     /**
      * Sends a message in the room's chat
@@ -128,5 +135,7 @@ public interface Room {
      * @param id the song id
      */
     void queueSong(SongInfo.SourceType type, String id) throws IOException;
+
+    void removeSong(Song song) throws IOException;
 
 }

@@ -85,6 +85,50 @@ public final class Requester {
         return request(b.build());
     }
 
+    public Response delete(String url) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(url)
+                .delete();
+
+        builder = appendCookies(builder);
+        return request(builder.build());
+    }
+
+    public Response delete(String url, Map<String, String> data) throws IOException {
+        return delete(url, data, null);
+    }
+
+    public Response delete(String url, Map<String, String> data, Map<String, String> headers) throws IOException {
+        FormBody.Builder b = new FormBody.Builder();
+
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            b.addEncoded(key, value);
+        }
+
+        RequestBody body = b.build();
+
+        Request.Builder builder = new Request.Builder()
+                .url(url)
+                .addHeader("Content-Type", body.contentType().type())
+                .addHeader("Content-Length", String.valueOf(body.contentLength()))
+                .delete(body);
+
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                builder.addHeader(key, value);
+            }
+        }
+
+        builder = appendCookies(builder);
+        return request(builder.build());
+    }
+
     private Response request(Request request) throws IOException {
         Response response = client.newCall(request).execute();
         Logger.debug("Got " + response.code() + " for " + request.method().toUpperCase() + " " + request.url());

@@ -18,23 +18,16 @@ import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
 
-public class SkipCommand extends Command {
+public class RoomQueueCommand extends Command {
 
-    public SkipCommand() {
-        super("skips a song", "skip");
+    public RoomQueueCommand() {
+        super("prints the room queue", "roomqueue", "songs");
     }
 
     @Override
     public void onCommand(Room room, User user, Message message, String[] args) {
-        if (!user.getUsername().equalsIgnoreCase("sponges")) {
-            return;
-        }
-
-        System.out.println("old song id " + room.getCurrentSong().getId());
-        System.out.println("room id " + room.getId());
         try {
-            room.skipSong();
-            room.sendMessage("Skipped!");
+            room.sendMessage(room.getRoomQueue().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -14,30 +14,26 @@ package cmd;
 
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.Song;
 import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
 
-public class SkipCommand extends Command {
+public class RemoveAllCommand extends Command {
 
-    public SkipCommand() {
-        super("skips a song", "skip");
+    public RemoveAllCommand() {
+        super("removes all songs from the queue", "removeall");
     }
 
     @Override
-    public void onCommand(Room room, User user, Message message, String[] args) {
-        if (!user.getUsername().equalsIgnoreCase("sponges")) {
-            return;
-        }
+    public void onCommand(Room room, User user, Message message, String[] args) throws IOException {
+        if (!user.getUsername().equalsIgnoreCase("sponges")) return;
 
-        System.out.println("old song id " + room.getCurrentSong().getId());
-        System.out.println("room id " + room.getId());
-        try {
-            room.skipSong();
-            room.sendMessage("Skipped!");
-        } catch (IOException e) {
-            e.printStackTrace();
+        room.sendMessage("Removing all songs from queue...");
+        for (Song song : room.getRoomQueue()) {
+            room.removeSong(song);
         }
+        room.sendMessage("Removed all songs from queue!");
     }
 
 }

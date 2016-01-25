@@ -12,20 +12,26 @@
 
 package io.sponges.dubtrack4j.internal.impl;
 
+import com.google.common.collect.ImmutableList;
 import io.sponges.dubtrack4j.exception.InvalidUserException;
 import io.sponges.dubtrack4j.framework.*;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.internal.request.*;
 import io.sponges.dubtrack4j.util.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RoomImpl implements Room {
 
     private final Map<String, User> users = new HashMap<>();
+    private final List<Song> roomQueue = new ArrayList<>();
 
     private final DubtrackAPIImpl dubtrack;
     private final String name, id;
@@ -106,6 +112,55 @@ public class RoomImpl implements Room {
     @Override
     public User getCreator() {
         return creator;
+    }
+
+    @Override
+    public List<Song> getRoomQueue() throws IOException {
+        loadRoomQueue();
+
+        return ImmutableList.copyOf(roomQueue);
+    }
+
+    // cus mutable
+    public List<Song> getInternalRoomQueue() {
+        return roomQueue;
+    }
+
+    private void loadRoomQueue() throws IOException {
+        JSONObject json = new RoomQueueRequest(dubtrack, id).request();
+        JSONArray array = json.getJSONArray("data");
+
+        List<String> idsToRemove = new ArrayList<>();
+        List<Song> songsToAdd = new ArrayList<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            String songId = object.getString("_id");
+
+            JSONObject userObject = object.getJSONObject("_user");
+            String userId = userObject.getString("_id");
+            User user = getUserById(userId);
+
+            JSONObject songObject = object.getJSONObject("_song");
+            String songName = songObject.getString("name");
+            int songLength = songObject.getInt("songLength");
+
+            String type = songObject.getString("type").toUpperCase();
+            String sourceId = songObject.getString("fkid");
+            SongInfo.SourceType sourceType = SongInfo.SourceType.valueOf(type);
+
+            SongInfo songInfo = new SongInfo(songName, songLength, sourceType);
+            if (sourceType == SongInfo.SourceType.YOUTUBE) songInfo.setYoutubeId(sourceId);
+            else if (sourceType == SongInfo.SourceType.SOUNDCLOUD) songInfo.setSoundcloudId(sourceId);
+
+            Song song = new SongImpl(dubtrack, songId, user, this, songInfo);
+            idsToRemove.add(song.getId());
+            songsToAdd.add(song);
+        }
+
+        // to avoid concurrent modification
+        songsToAdd.stream().filter(song -> idsToRemove.contains(song.getId())).forEach(songsToAdd::remove);
+        roomQueue.addAll(songsToAdd.stream().collect(Collectors.toList()));
     }
 
     public void setCreator(User creator) {
@@ -218,6 +273,11 @@ public class RoomImpl implements Room {
     @Override
     public void queueSong(SongInfo.SourceType type, String id) throws IOException {
         new QueueSongRequest(dubtrack, this.id, type, id).request();
+    }
+
+    @Override
+    public void removeSong(Song song) throws IOException {
+        new RemoveSongRequest(dubtrack, id, song.getUser().getId()).request();
     }
 
 }
