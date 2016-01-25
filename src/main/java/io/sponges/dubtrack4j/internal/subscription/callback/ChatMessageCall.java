@@ -13,7 +13,7 @@
 package io.sponges.dubtrack4j.internal.subscription.callback;
 
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
-import io.sponges.dubtrack4j.event.UserChatEvent;
+import io.sponges.dubtrack4j.event.user.UserChatEvent;
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.User;
 import io.sponges.dubtrack4j.internal.impl.RoomImpl;

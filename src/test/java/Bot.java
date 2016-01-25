@@ -14,9 +14,10 @@ import cmd.CommandHandler;
 import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
-import io.sponges.dubtrack4j.event.UserChatEvent;
-import io.sponges.dubtrack4j.event.UserDubEvent;
 import io.sponges.dubtrack4j.event.framework.EventBus;
+import io.sponges.dubtrack4j.event.user.UserChatEvent;
+import io.sponges.dubtrack4j.event.user.UserDubEvent;
+import io.sponges.dubtrack4j.event.user.UserEvent;
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
@@ -43,6 +44,11 @@ public class Bot {
         this.dubtrack = DubtrackBuilder.create(credentials[0], credentials[1]).setLoggingMode(Logger.LoggingMode.DEBUG).buildAndLogin();
 
         EventBus bus = this.dubtrack.getEventBus();
+
+        bus.register(UserEvent.class, event -> {
+            System.out.println("ok");
+            System.out.println("user event fired " + event.getClass().getName());
+        });
 
         bus.register(UserChatEvent.class, event -> {
             Message message = event.getMessage();

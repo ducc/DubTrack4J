@@ -10,35 +10,26 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.util;
+package io.sponges.dubtrack4j.event.user;
 
-import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.User;
 
-public final class Logger {
+public class UserLeaveEvent extends UserEvent {
 
-    // TODO replace this with slf4j or java's logger
+    private final User user;
+    private final Room room;
 
-    private Logger() {
+    public UserLeaveEvent(User user, Room room) {
+        this.user = user;
+        this.room = room;
     }
 
-    public enum LoggingMode {
-        WARNING, NORMAL, DEBUG
+    public User getUser() {
+        return user;
     }
 
-    public static void debug(String msg) {
-        if (DubtrackAPIImpl.getLoggingMode() == LoggingMode.DEBUG) {
-            System.out.println("DEBUG> " + msg);
-        }
+    public Room getRoom() {
+        return room;
     }
-
-    public static void info(String msg) {
-        if (DubtrackAPIImpl.getLoggingMode() != LoggingMode.WARNING) {
-            System.out.println("INFO> " + msg);
-        }
-    }
-
-    public static void warning(String msg) {
-        System.out.println("WARNING> " + msg);
-    }
-
 }

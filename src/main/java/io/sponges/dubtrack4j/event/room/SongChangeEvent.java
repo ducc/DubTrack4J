@@ -10,24 +10,28 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.event;
+package io.sponges.dubtrack4j.event.room;
 
-import io.sponges.dubtrack4j.event.framework.Event;
 import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.framework.Song;
 
-public class UserJoinEvent extends Event {
+public class SongChangeEvent extends RoomEvent {
 
-    private final User user;
+    private final Song lastSong, newSong;
     private final Room room;
 
-    public UserJoinEvent(User user, Room room) {
-        this.user = user;
+    public SongChangeEvent(Song lastSong, Song newSong, Room room) {
+        this.lastSong = lastSong;
+        this.newSong = newSong;
         this.room = room;
     }
 
-    public User getUser() {
-        return user;
+    public Song getLastSong() {
+        return lastSong;
+    }
+
+    public Song getNewSong() {
+        return newSong;
     }
 
     public Room getRoom() {

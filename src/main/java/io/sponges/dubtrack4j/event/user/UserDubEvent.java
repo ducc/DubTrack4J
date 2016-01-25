@@ -10,20 +10,41 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.event;
+package io.sponges.dubtrack4j.event.user;
 
-import io.sponges.dubtrack4j.event.framework.Event;
-import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.DubType;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.Song;
+import io.sponges.dubtrack4j.framework.User;
 
-public class UserChatEvent extends Event {
+public class UserDubEvent extends UserEvent {
 
-    private final Message message;
+    private final Song song;
+    private final User user;
+    private final Room room;
+    private final DubType type;
 
-    public UserChatEvent(Message message) {
-        this.message = message;
+    public UserDubEvent(Song song, User user, Room room, DubType type) {
+        this.song = song;
+        this.user = user;
+        this.room = room;
+        this.type = type;
     }
 
-    public Message getMessage() {
-        return message;
+    public Song getSong() {
+        return song;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public DubType getType() {
+        return type;
+    }
+
 }

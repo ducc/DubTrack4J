@@ -10,27 +10,19 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.event;
+package io.sponges.dubtrack4j.event.user;
 
-import io.sponges.dubtrack4j.event.framework.Event;
-import io.sponges.dubtrack4j.framework.Room;
-import io.sponges.dubtrack4j.framework.User;
+import io.sponges.dubtrack4j.framework.Message;
 
-public class UserLeaveEvent extends Event {
+public class UserChatEvent extends UserEvent {
 
-    private final User user;
-    private final Room room;
+    private final Message message;
 
-    public UserLeaveEvent(User user, Room room) {
-        this.user = user;
-        this.room = room;
+    public UserChatEvent(Message message) {
+        this.message = message;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Room getRoom() {
-        return room;
+    public Message getMessage() {
+        return message;
     }
 }
