@@ -10,40 +10,38 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.sponges.dubtrack4j.internal.request;
+package cmd;
 
-import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
-import io.sponges.dubtrack4j.util.URL;
-import okhttp3.Response;
-import org.json.JSONObject;
+import io.sponges.dubtrack4j.exception.InvalidUserException;
+import io.sponges.dubtrack4j.framework.Message;
+import io.sponges.dubtrack4j.framework.Room;
+import io.sponges.dubtrack4j.framework.User;
 
 import java.io.IOException;
-import java.util.HashMap;
 
-public class BanUserRequest implements DubRequest {
+public class BanCommand extends Command {
 
-    private final DubtrackAPIImpl dubtrack;
-
-    private final String roomId, roomName, userId;
-    private final int time;
-
-    public BanUserRequest(DubtrackAPIImpl dubtrack,  String roomId, String roomName, String userId, int time) throws IOException {
-        this.dubtrack = dubtrack;
-        this.roomId = roomId;
-        this.roomName = roomName;
-        this.userId = userId;
-        this.time = time;
+    public BanCommand() {
+        super("bans a user from the room", "ban", "b");
     }
 
     @Override
-    public JSONObject request() throws IOException {
-        String url = String.format(URL.BAN_USER.toString(), roomId, userId);
+    public void onCommand(Room room, User user, Message message, String[] args) throws IOException {
+        if (!user.getUsername().equalsIgnoreCase("sponges")) return;
 
-        Response response = dubtrack.getHttpRequester().post(url, new HashMap<String, String>() {{
-            put("realTimeChannel", "dubtrackfm-" + roomName);
-            put("time", String.valueOf(time));
-        }});
+        if (args.length == 0) {
+            room.sendMessage("Specify user!");
+            return;
+        }
 
-        return new JSONObject(response.body().string());
+        String u = args[0];
+
+        try {
+            room.banUser(u);
+            room.sendMessage("Banned " + u + "!");
+        } catch (InvalidUserException e) {
+            room.sendMessage("Could not find that user!");
+        }
     }
+
 }

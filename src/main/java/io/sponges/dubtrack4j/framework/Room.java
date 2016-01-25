@@ -123,11 +123,16 @@ public interface Room {
     void banUser(User user, int length) throws IOException;
 
     /**
+     * Unbans a user from the room
+     * @param username the user to unban
+     * TODO implement this
+     */
+    void unbanUser(String username);
+
+    /**
      * Skips the current song playing in the room
      */
     void skipSong() throws IOException;
-
-    // TODO song queue management; adding, removing & viewing
 
     /**
      * Adds a song to the queue

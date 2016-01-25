@@ -260,8 +260,24 @@ public class RoomImpl implements Room {
 
     @Override
     public void banUser(User user, int length) throws IOException {
-        JSONObject jsonObject = new BanUserRequest(dubtrack, dubtrack.getAccount(), id, name, user.getId(), length).request();
+        JSONObject jsonObject = new BanUserRequest(dubtrack, id, name, user.getId(), length).request();
         Logger.debug(jsonObject.toString());
+    }
+
+    @Override
+    public void unbanUser(String username) {
+        // TODO add unbanning
+
+        /*
+        url:
+        https://api.dubtrack.fm/chat/ban/561d75e5b4a7dd0e00251c0b/user/5621633533d3ee29007fa376
+
+        method:
+        DELETE
+
+        data:
+        realTimeChannel dubtrackfm-sponges
+         */
     }
 
     @Override

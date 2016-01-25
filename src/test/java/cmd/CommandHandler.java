@@ -37,7 +37,8 @@ public class CommandHandler {
                 new QueueCommand(),
                 new RoomQueueCommand(),
                 new RemoveAllCommand(),
-                new KickCommand()
+                new KickCommand(),
+                new BanCommand()
         );
     }
 
