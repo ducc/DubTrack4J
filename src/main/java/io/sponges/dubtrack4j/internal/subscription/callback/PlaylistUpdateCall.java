@@ -33,6 +33,9 @@ public class PlaylistUpdateCall extends SubCallback {
 
     @Override
     public void run(JSONObject json) throws IOException {
+        int startTime = json.getInt("startTime");
+        if (startTime != -1) return; // prevent double call
+
         JSONObject song = json.getJSONObject("song");
         JSONObject songInfo = json.getJSONObject("songInfo");
 

@@ -45,6 +45,9 @@ public class QueueSongRequest implements DubRequest {
             put("songType", sourceType);
         }});
 
+        // TODO change everything to this
+        //Response response = dubtrack.getHttpRequester().post(url, ImmutableMap.of("songId", id, "songType", sourceType));
+
         return new JSONObject(response.body().string());
     }
 

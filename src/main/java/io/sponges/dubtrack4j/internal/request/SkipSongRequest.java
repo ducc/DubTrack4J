@@ -38,7 +38,7 @@ public class SkipSongRequest implements DubRequest {
     @Override
     public JSONObject request() throws IOException {
         String url = String.format(URL.SKIP_SONG.toString(), room, playlist);
-        Response response = dubtrack.getHttpRequester().post(String.format(URL.SKIP_SONG.toString(), room, playlist), new HashMap<String, String>() {{
+        Response response = dubtrack.getHttpRequester().post(url, new HashMap<String, String>() {{
             put("realTimeChannel", "dubtrackfm-" + room);
         }});
 

@@ -15,6 +15,7 @@ import com.pubnub.api.PubnubException;
 import io.sponges.dubtrack4j.DubtrackAPI;
 import io.sponges.dubtrack4j.DubtrackBuilder;
 import io.sponges.dubtrack4j.event.framework.EventBus;
+import io.sponges.dubtrack4j.event.room.SongChangeEvent;
 import io.sponges.dubtrack4j.event.user.UserChatEvent;
 import io.sponges.dubtrack4j.event.user.UserDubEvent;
 import io.sponges.dubtrack4j.event.user.UserEvent;
@@ -75,6 +76,15 @@ public class Bot {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        bus.register(SongChangeEvent.class, event -> {
+            Room room = event.getRoom();
+            try {
+                room.sendMessage(String.format("Now playing %s!", event.getNewSong().getSongInfo().getName()));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 

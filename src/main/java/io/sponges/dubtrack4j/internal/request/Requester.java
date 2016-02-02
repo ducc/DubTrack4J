@@ -21,7 +21,7 @@ import java.util.Map;
 
 public final class Requester {
 
-    public static final String USER_AGENT = "Mozilla/5.0 Dubtrack4J (github.com/sponges/dubtrack4j)";
+    public static final String USER_AGENT = "Mozilla/5.0";
     private static final RequestBody EMPTY_BODY = RequestBody.create(null, new byte[0]);
 
     private final DubtrackAPIImpl dubtrack;
