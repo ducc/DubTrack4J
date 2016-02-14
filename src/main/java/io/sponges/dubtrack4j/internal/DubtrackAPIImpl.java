@@ -35,8 +35,6 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     public static final String USER_AGENT = "Mozilla/5.0 Dubtrack4J (github.com/sponges/dubtrack4j)";
 
     private static Logger.LoggingMode loggingMode = Logger.LoggingMode.NORMAL;
-
-    //              id  room
     private final Map<String, Room> rooms = new HashMap<>();
 
     private final DubAccount account;

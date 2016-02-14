@@ -26,6 +26,7 @@ public class Subscribe {
     public Subscribe(DubtrackAPIImpl dubtrack, String room) throws PubnubException {
         this.dubtrack = dubtrack;
         this.pubnub = new Pubnub(null, SUBSCRIPTION_KEY);
+        this.pubnub.setUUID(dubtrack.getAccount().getUuid());
 
         this.pubnub.subscribe("dubtrackfm-" + room, new SubscriptionCallback(dubtrack));
     }

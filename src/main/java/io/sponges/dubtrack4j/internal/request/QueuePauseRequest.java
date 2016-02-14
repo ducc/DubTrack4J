@@ -12,7 +12,6 @@
 
 package io.sponges.dubtrack4j.internal.request;
 
-import io.sponges.dubtrack4j.framework.SongInfo;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
@@ -21,33 +20,24 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class QueueSongRequest implements DubRequest {
+public class QueuePauseRequest implements DubRequest {
 
     private final DubtrackAPIImpl dubtrack;
     private final String room;
-    private final SongInfo.SourceType type;
-    private final String id;
+    private final int state;
 
-    public QueueSongRequest(DubtrackAPIImpl dubtrack, String room, SongInfo.SourceType type, String id) {
+    public QueuePauseRequest(DubtrackAPIImpl dubtrack, String room, int state) {
         this.dubtrack = dubtrack;
         this.room = room;
-        this.type = type;
-        this.id = id;
+        this.state = state;
     }
 
     @Override
     public JSONObject request() throws IOException {
-        String sourceType = type.name().toLowerCase();
-        String url = String.format(URL.QUEUE_SONG.toString(), room);
-
-        Response response = dubtrack.getHttpRequester().post(url, new HashMap<String, String>() {{
-            put("songId", id);
-            put("songType", sourceType);
+        String url = String.format(URL.PAUSE_QUEUE.toString(), room);
+        Response response = dubtrack.getHttpRequester().put(url, new HashMap<String, String>() {{
+            put("queuePaused", String.valueOf(state));
         }});
-
-        // TODO find a more efficient way to do this
-        new QueuePauseRequest(dubtrack, room, 0).request();
-
         return new JSONObject(response.body().string());
     }
 

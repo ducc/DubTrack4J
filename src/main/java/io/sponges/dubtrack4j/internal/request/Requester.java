@@ -21,6 +21,8 @@ import java.util.Map;
 
 public final class Requester {
 
+    // TODO use 2 dimensional arrays instead of hashmaps
+
     public static final String USER_AGENT = "Mozilla/5.0";
     private static final RequestBody EMPTY_BODY = RequestBody.create(null, new byte[0]);
 
@@ -71,6 +73,41 @@ public final class Requester {
                 .addHeader("Content-Type", body.contentType().type())
                 .addHeader("Content-Length", String.valueOf(body.contentLength()))
                 .post(body);
+
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                b.addHeader(key, value);
+            }
+        }
+
+        b = appendCookies(b);
+        return request(b.build());
+    }
+
+    public Response put(String url, Map<String, String> data) throws IOException {
+        return put(url, data, null);
+    }
+
+    public Response put(String url, Map<String, String> data, Map<String, String> headers) throws IOException {
+        FormBody.Builder builder = new FormBody.Builder();
+
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            builder.addEncoded(key, value);
+        }
+
+        RequestBody body = builder.build();
+
+        Request.Builder b = new Request.Builder()
+                .url(url)
+                .addHeader("Content-Type", body.contentType().type())
+                .addHeader("Content-Length", String.valueOf(body.contentLength()))
+                .put(body);
 
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {

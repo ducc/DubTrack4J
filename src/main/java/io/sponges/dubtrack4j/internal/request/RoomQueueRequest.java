@@ -33,6 +33,7 @@ public class RoomQueueRequest implements DubRequest {
     public JSONObject request() throws IOException {
         String url = String.format(URL.ROOM_QUEUE.toString(), room);
         Response response = dubtrack.getHttpRequester().get(url);
+
         return new JSONObject(response.body().string());
     }
 

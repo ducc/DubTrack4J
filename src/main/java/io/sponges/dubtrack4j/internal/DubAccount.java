@@ -12,6 +12,9 @@
 
 package io.sponges.dubtrack4j.internal;
 
+import io.sponges.dubtrack4j.internal.request.SessionRequest;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class DubAccount {
@@ -20,6 +23,7 @@ public class DubAccount {
     private final String username, password;
 
     private String token = null;
+    private String uuid = null;
 
     public DubAccount(DubtrackAPIImpl dubtrack, String username, String password) {
         this.dubtrack = dubtrack;
@@ -35,9 +39,17 @@ public class DubAccount {
         Auth auth = new Auth(dubtrack, username, password);
         auth.login();
         this.token = auth.getSid();
+
+        JSONObject json = new SessionRequest(dubtrack).request();
+        JSONObject data = json.getJSONObject("data");
+        this.uuid = data.getString("_id");
     }
 
     public String getToken() {
         return token;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 }

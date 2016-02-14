@@ -69,10 +69,10 @@ public class Bot {
         bus.register(UserDubEvent.class, event -> {
             int downdubs = event.getSong().getDowndubs();
 
-            if (downdubs > 1) {
+            if (downdubs > event.getSong().getUpdubs()) {
                 try {
                     event.getSong().skip();
-                    event.getRoom().sendMessage("Got 2 down dubs so skipped tbh!");
+                    event.getRoom().sendMessage("Got 1 down dub so skipped tbh!");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

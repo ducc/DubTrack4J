@@ -22,6 +22,7 @@ public enum URL {
 
     // Auth
     AUTH("https://api.dubtrack.fm/auth/dubtrack"),
+    SESSION("https://api.dubtrack.fm/auth/session"),
 
     // Requests
     JOIN_ROOM("https://api.dubtrack.fm/room/"),
@@ -36,7 +37,8 @@ public enum URL {
     ROOM_PLAYLIST("https://api.dubtrack.fm/room/%s/playlist/active"),
     QUEUE_SONG("https://api.dubtrack.fm/room/%s/playlist"),
     REMOVE_SONG("https://api.dubtrack.fm/room/%s/queue/user/%s"),
-    ROOM_QUEUE("https://api.dubtrack.fm/room/%s/playlist/details");
+    ROOM_QUEUE("https://api.dubtrack.fm/room/%s/playlist/details"),
+    PAUSE_QUEUE("https://api.dubtrack.fm/room/%s/queue/pause");
 
     private final String url;
 
