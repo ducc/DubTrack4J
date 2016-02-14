@@ -36,6 +36,7 @@ public class DubtrackAPIImpl implements DubtrackAPI {
 
     private static Logger.LoggingMode loggingMode = Logger.LoggingMode.NORMAL;
     private final Map<String, Room> rooms = new HashMap<>();
+    private final Map<String, Subscribe> subscribers = new HashMap<>();
 
     private final DubAccount account;
     private final EventBus eventBus;
@@ -66,12 +67,21 @@ public class DubtrackAPIImpl implements DubtrackAPI {
     }
 
     @Override
+    public void logout() {
+        for (Subscribe subscribe : subscribers.values()) {
+            subscribe.getPubnub().unsubscribeAll();
+        }
+
+        // TODO logout request
+    }
+
+    @Override
     public Room joinRoom(String name) throws IOException, PubnubException {
         JoinRoomRequest request = new JoinRoomRequest(this, name, account);
         JSONObject json = request.request();
         Room room = request.getRoom(json);
-        new Subscribe(this, room.getName());
-
+        Subscribe subscribe = new Subscribe(this, room.getName());
+        subscribers.put(name, subscribe);
         return room;
     }
 

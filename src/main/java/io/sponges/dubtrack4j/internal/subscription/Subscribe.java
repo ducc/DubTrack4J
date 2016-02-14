@@ -30,4 +30,8 @@ public class Subscribe {
 
         this.pubnub.subscribe("dubtrackfm-" + room, new SubscriptionCallback(dubtrack));
     }
+
+    public Pubnub getPubnub() {
+        return pubnub;
+    }
 }

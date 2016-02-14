@@ -29,6 +29,11 @@ public interface DubtrackAPI {
     DubtrackAPI login() throws IOException;
 
     /**
+     * Logs out of dubtrack
+     */
+    void logout();
+
+    /**
      * Attempts to join the specified room
      * @param name the name of the room (name is at the end of room url)
      * @return Room instance
