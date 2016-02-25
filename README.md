@@ -20,7 +20,7 @@ Dependency:
 <dependency>
     <groupId>com.github.sponges</groupId>
     <artifactId>dubtrack4j</artifactId>
-    <version>1.04-SNAPSHOT</version>
+    <version>1.05-SNAPSHOT</version>
 </dependency>
 ```
 
