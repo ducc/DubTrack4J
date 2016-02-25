@@ -18,7 +18,6 @@ import io.sponges.dubtrack4j.event.framework.EventBus;
 import io.sponges.dubtrack4j.event.room.SongChangeEvent;
 import io.sponges.dubtrack4j.event.user.UserChatEvent;
 import io.sponges.dubtrack4j.event.user.UserDubEvent;
-import io.sponges.dubtrack4j.event.user.UserEvent;
 import io.sponges.dubtrack4j.framework.Message;
 import io.sponges.dubtrack4j.framework.Room;
 import io.sponges.dubtrack4j.framework.User;
@@ -46,12 +45,8 @@ public class Bot {
 
         EventBus bus = this.dubtrack.getEventBus();
 
-        bus.register(UserEvent.class, event -> {
-            // TODO find out why this doesn't seem to work, something wrong with EventBus?
-            System.out.println("user event fired " + event.getClass().getName());
-        });
-
         bus.register(UserChatEvent.class, event -> {
+            System.out.println("User chat event called");
             Message message = event.getMessage();
             User user = message.getUser();
             Room room = message.getRoom();

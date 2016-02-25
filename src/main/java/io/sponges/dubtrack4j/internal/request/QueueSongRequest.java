@@ -16,6 +16,7 @@ import io.sponges.dubtrack4j.framework.SongInfo;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -48,7 +49,11 @@ public class QueueSongRequest implements DubRequest {
         // TODO find a more efficient way to do this
         new QueuePauseRequest(dubtrack, room, 0).request();
 
-        return new JSONObject(response.body().string());
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
+
+        return new JSONObject(result);
     }
 
 }

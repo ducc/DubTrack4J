@@ -15,6 +15,7 @@ package io.sponges.dubtrack4j.internal.request;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -34,7 +35,11 @@ public class RoomQueueRequest implements DubRequest {
         String url = String.format(URL.ROOM_QUEUE.toString(), room);
         Response response = dubtrack.getHttpRequester().get(url);
 
-        return new JSONObject(response.body().string());
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
+
+        return new JSONObject(result);
     }
 
 }

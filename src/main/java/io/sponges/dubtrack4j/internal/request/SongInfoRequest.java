@@ -14,9 +14,9 @@ package io.sponges.dubtrack4j.internal.request;
 
 import io.sponges.dubtrack4j.internal.DubAccount;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
-import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,11 +36,12 @@ public class SongInfoRequest implements DubRequest {
     @Override
     public JSONObject request() throws IOException {
         Response response = dubtrack.getHttpRequester().get(URL.SONG_INFO + id);
-        String r = response.body().string();
 
-        Logger.debug(r);
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
 
-        return new JSONObject(r);
+        return new JSONObject(result);
     }
 
 }

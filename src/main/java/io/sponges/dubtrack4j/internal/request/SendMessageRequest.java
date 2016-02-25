@@ -17,6 +17,7 @@ import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -43,10 +44,13 @@ public class SendMessageRequest implements DubRequest {
             put("realTimeChannel", "dubtrackfm-" + room);
         }});
 
-        String r = response.body().string();
-        Logger.debug("Sent message! " + r);
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
 
-        return new JSONObject(r);
+        Logger.debug("Sent message! " + result);
+
+        return new JSONObject(result);
     }
 
 }

@@ -17,6 +17,7 @@ import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -40,7 +41,11 @@ public class RoomInfoRequest implements DubRequest {
         String r = response.body().string();
         Logger.debug("ROOM INFO " + r);
 
-        return new JSONObject(r);
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
+
+        return new JSONObject(result);
     }
 
 }

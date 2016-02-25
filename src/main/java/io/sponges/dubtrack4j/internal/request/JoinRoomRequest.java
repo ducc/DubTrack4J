@@ -20,6 +20,7 @@ import io.sponges.dubtrack4j.internal.impl.SongImpl;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +41,14 @@ public class JoinRoomRequest implements DubRequest {
     @Override
     public JSONObject request() throws JSONException, IOException {
         Response response = dubtrack.getHttpRequester().get(URL.JOIN_ROOM + name);
-        String str = response.body().string();
 
-        Logger.debug("JOIN ROOM " + str);
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
 
-        return new JSONObject(str);
+        Logger.debug("JOIN ROOM " + result);
+
+        return new JSONObject(result);
     }
 
     public Room getRoom(JSONObject json) throws IOException {

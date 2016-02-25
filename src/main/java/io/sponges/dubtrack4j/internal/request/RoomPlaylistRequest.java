@@ -17,6 +17,7 @@ import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.Logger;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -37,10 +38,13 @@ public class RoomPlaylistRequest implements DubRequest {
     public JSONObject request() throws IOException {
         Response response = dubtrack.getHttpRequester().get(String.format(URL.ROOM_PLAYLIST.toString(), room));
 
-        String r = response.body().string();
-        Logger.debug("ROOM PLAYLIST " + r);
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
 
-        return new JSONObject(r);
+        Logger.debug("ROOM PLAYLIST " + result);
+
+        return new JSONObject(result);
     }
 
 }

@@ -15,6 +15,7 @@ package io.sponges.dubtrack4j.internal.request;
 import io.sponges.dubtrack4j.internal.DubtrackAPIImpl;
 import io.sponges.dubtrack4j.util.URL;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -31,6 +32,11 @@ public class SessionRequest implements DubRequest {
     public JSONObject request() throws IOException {
         Requester requester = dubtrack.getHttpRequester();
         Response response = requester.get(URL.SESSION.toString());
-        return new JSONObject(response.body().string());
+
+        ResponseBody body = response.body();
+        String result = body.string();
+        body.close();
+
+        return new JSONObject(result);
     }
 }
