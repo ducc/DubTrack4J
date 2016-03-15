@@ -63,7 +63,7 @@ public final class Requester {
             String key = entry.getKey();
             String value = entry.getValue();
 
-            builder.addEncoded(key, value);
+            builder.add(key, value);
         }
 
         RequestBody body = builder.build();
