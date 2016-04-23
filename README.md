@@ -54,6 +54,3 @@ room.sendMessage("This is a message!");
 
 ##### Other stuff
 Check out the javadocs @ placeholder.exe
-
-### TODOs
-https://github.com/Sponges/DubTrack4J/issues/1
